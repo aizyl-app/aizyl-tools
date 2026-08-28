@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Konwertuj zdjęcia HEIC i HEIF z iPhone na JPG, PNG lub WebP. Wiele plików naraz. Lokalnie w przeglądarce." />
+  <title>HEIC do JPG | Narzędzia Aizyl</title>
+
+  <meta property="og:title" content="HEIC do JPG – Aizyl" />
+  <meta property="og:description" content="Zamień zdjęcia HEIC z iPhone na JPG. Lokalnie, bez wysyłania plików." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/heic-to-jpg/" />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./heic-to-jpg.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzędzia</a>
+        <h1>HEIC do JPG</h1>
+        <p>Zamień zdjęcia HEIC i HEIF z iPhone na JPG, PNG lub WebP. Wiele plików naraz. Wszystko lokalnie w przeglądarce.</p>
+        <span class="pill"><span class="dot"></span> Pliki zostają na tym komputerze</span>
+      </div>
+
+      <div class="dropzone" id="dropzone" tabindex="0" role="button"
+           aria-label="Wybierz pliki HEIC do konwersji">
+        <span class="ti ti-device-iphone dz-icon" aria-hidden="true"></span>
+        <p class="dz-title">Przeciągnij pliki HEIC tutaj</p>
+        <p class="dz-sub">albo kliknij, żeby wybrać · .heic, .heif · możesz wrzucić kilka naraz</p>
+      </div>
+      <input type="file" id="picker" hidden multiple accept=".heic,.heif,image/heic,image/heif" />
+
+      <div class="workspace" id="workspace" hidden>
+
+        <div class="heic-options">
+          <span class="opt-label">Format wyjściowy:</span>
+          <div class="format-btns" role="group">
+            <button class="fmt-btn active" data-fmt="image/jpeg" data-ext="jpg">JPG</button>
+            <button class="fmt-btn" data-fmt="image/png" data-ext="png">PNG</button>
+            <button class="fmt-btn" data-fmt="image/webp" data-ext="webp">WebP</button>
+          </div>
+          <div class="heic-quality" id="qualityWrap">
+            <label class="opt-label" for="qualityRange">
+              Jakość: <strong id="qualityVal">92</strong>%
+            </label>
+            <input type="range" id="qualityRange" min="10" max="100" value="92" step="1" />
+          </div>
+        </div>
+
+        <div class="ws-toolbar">
+          <span class="ws-count" id="wsCount"></span>
+          <div class="ws-actions">
+            <button class="btn btn-ghost btn-sm" id="btnAddMore">
+              <span class="ti ti-plus" aria-hidden="true"></span> Dodaj
+            </button>
+            <button class="btn btn-ghost btn-sm" id="btnClear">
+              <span class="ti ti-trash" aria-hidden="true"></span> Wyczyść
+            </button>
+          </div>
+        </div>
+
+        <div class="img-grid" id="imgGrid" role="list"></div>
+
+        <div class="merge-bar">
+          <button class="btn btn-primary" id="btnConvert">
+            <span class="ti ti-file-download" aria-hidden="true"></span>
+            Konwertuj i pobierz
+          </button>
+          <span class="merge-info" id="convertInfo"></span>
+        </div>
+
+      </div>
+
+      <div class="explainer">
+        <h2>Dlaczego iPhone zapisuje w HEIC</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-device-iphone" aria-hidden="true"></span>
+            <h3>Domyślny format Apple</h3>
+            <p>Od iOS 11 iPhone zapisuje zdjęcia w formacie HEIC. Zajmuje mniej miejsca niż JPG przy tej samej jakości.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-alert-circle" aria-hidden="true"></span>
+            <h3>Problem z kompatybilnością</h3>
+            <p>Windows, strony internetowe i wiele programów nie obsługuje HEIC. JPG działa wszędzie.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-stack" aria-hidden="true"></span>
+            <h3>Wiele plików naraz</h3>
+            <p>Wrzuć całą serię zdjęć z iPhone jednocześnie. Wszystkie zostaną skonwertowane i spakowane do ZIP.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Pliki nie wychodzą</h3>
+            <p>Konwersja odbywa się w Twojej przeglądarce przez bibliotekę heic2any. Żaden plik nie trafia na serwer.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Konwersja HEIC jest w pełni lokalna.</strong> Biblioteka heic2any działa bezpośrednio
+        w przeglądarce. Żaden plik nie opuszcza Twojego komputera.
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <template id="imgCardTpl">
+    <div class="img-card" role="listitem">
+      <div class="ic-thumb-wrap">
+        <div class="ic-placeholder">
+          <span class="ti ti-photo" aria-hidden="true"></span>
+        </div>
+        <img class="ic-preview" alt="" hidden />
+        <button class="ic-del" aria-label="Usuń plik">
+          <span class="ti ti-x" aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="ic-meta">
+        <span class="ic-name"></span>
+        <span class="ic-status"></span>
+      </div>
+    </div>
+  </template>
+
+  <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="/shared/layout.js"></script>
+  <script src="./heic-to-jpg.js"></script>
+</body>
+</html>

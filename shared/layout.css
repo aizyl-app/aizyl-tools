@@ -1,0 +1,67 @@
+﻿/* Tylko to, czego nie ma w aizyl-base.css.
+   Nagłówek, stopka, .container, .btn i typografia pochodzą z oryginału. */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+.nav-logo { display: inline-flex; align-items: baseline; gap: 9px; }
+.nav-logo-tools {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.13em;
+  text-transform: lowercase;
+  color: var(--primary);
+  opacity: 0.75;
+  padding-bottom: 1px;
+}
+.nav-links a[aria-current="page"] {
+  color: var(--foreground);
+  border-bottom: 1px solid var(--primary);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--foreground);
+  border: 1px solid var(--border);
+}
+.btn:disabled { opacity: .4; cursor: not-allowed; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+body { position: relative; }
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60vw 52vw at 10% 4%,  var(--glow-green) 0%, transparent 58%),
+    radial-gradient(54vw 48vw at 92% 14%, var(--glow-rose)  0%, transparent 60%),
+    radial-gradient(58vw 50vw at 74% 92%, var(--glow-blue)  0%, transparent 60%);
+}
+
+@media (max-width: 620px) {
+  body::before {
+    background:
+      radial-gradient(90vw 60vw at 6% 2%,   var(--glow-green) 0%, transparent 62%),
+      radial-gradient(90vw 60vw at 98% 22%, var(--glow-rose)  0%, transparent 64%);
+  }
+}
+
+/* Nagłówek i stopka przepuszczają poświaty z tła.
+   Nadpisuje tło z aizyl-base.css tylko w obrębie Tools. */
+
+.site-nav {
+  background: rgba(237, 234, 227, 0.55);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.site-footer {
+  background: transparent;
+  border-top: 1px solid var(--border-soft);
+}

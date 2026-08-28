@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Konwertuj obrazy między formatami JPG, PNG i WebP. Wiele plików naraz, lokalnie w przeglądarce." />
+  <title>Konwertuj obraz | Narzędzia Aizyl</title>
+
+  <meta property="og:title" content="Konwertuj obraz – Aizyl" />
+  <meta property="og:description" content="Zamień JPG, PNG i WebP między formatami. Lokalnie, bez wysyłania plików." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/convert-image/" />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./convert-image.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzędzia</a>
+        <h1>Konwertuj obraz</h1>
+        <p>Zamień zdjęcia i obrazy między formatami JPG, PNG i WebP. Wiele plików naraz. Wszystko lokalnie.</p>
+        <span class="pill"><span class="dot"></span> Pliki zostają na tym komputerze</span>
+      </div>
+
+      <div class="dropzone" id="dropzone" tabindex="0" role="button"
+           aria-label="Wybierz obrazy do konwersji">
+        <span class="ti ti-photo-cog dz-icon" aria-hidden="true"></span>
+        <p class="dz-title">Przeciągnij obrazy tutaj</p>
+        <p class="dz-sub">albo kliknij, żeby wybrać · JPG, PNG, WebP, GIF, BMP · możesz wrzucić kilka naraz</p>
+      </div>
+      <input type="file" id="picker" hidden multiple accept="image/*" />
+
+      <div class="workspace" id="workspace" hidden>
+
+        <div class="conv-options">
+          <div class="conv-format">
+            <span class="opt-label">Format docelowy:</span>
+            <div class="format-btns" role="group" aria-label="Format wyjściowy">
+              <button class="fmt-btn active" data-fmt="image/jpeg" data-ext="jpg">JPG</button>
+              <button class="fmt-btn" data-fmt="image/png" data-ext="png">PNG</button>
+              <button class="fmt-btn" data-fmt="image/webp" data-ext="webp">WebP</button>
+            </div>
+          </div>
+          <div class="conv-quality" id="qualityWrap">
+            <label class="opt-label" for="qualityRange">
+              Jakość: <strong id="qualityVal">92</strong>%
+            </label>
+            <input type="range" id="qualityRange" min="10" max="100" value="92" step="1" />
+          </div>
+        </div>
+
+        <div class="ws-toolbar">
+          <span class="ws-count" id="wsCount"></span>
+          <div class="ws-actions">
+            <button class="btn btn-ghost btn-sm" id="btnAddMore">
+              <span class="ti ti-plus" aria-hidden="true"></span> Dodaj
+            </button>
+            <button class="btn btn-ghost btn-sm" id="btnClear">
+              <span class="ti ti-trash" aria-hidden="true"></span> Wyczyść
+            </button>
+          </div>
+        </div>
+
+        <div class="img-grid" id="imgGrid" role="list"></div>
+
+        <div class="merge-bar">
+          <button class="btn btn-primary" id="btnConvert">
+            <span class="ti ti-file-download" aria-hidden="true"></span>
+            Konwertuj i pobierz
+          </button>
+          <span class="merge-info" id="convertInfo"></span>
+        </div>
+
+      </div>
+
+      <div class="explainer">
+        <h2>Kiedy zmiana formatu się przydaje</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-file-type-jpg" aria-hidden="true"></span>
+            <h3>PNG → JPG</h3>
+            <p>Pliki PNG są duże. Zamień je na JPG przed wysyłką emailem albo wrzuceniem na stronę.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-file-type-png" aria-hidden="true"></span>
+            <h3>JPG → PNG</h3>
+            <p>PNG nie traci jakości przy zapisywaniu. Przydatne gdy edytujesz obraz wielokrotnie.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-file-type-svg" aria-hidden="true"></span>
+            <h3>Cokolwiek → WebP</h3>
+            <p>WebP to nowoczesny format — mniejszy niż JPG i PNG przy tej samej jakości. Idealny na strony www.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-stack" aria-hidden="true"></span>
+            <h3>Wiele plików naraz</h3>
+            <p>Wrzuć kilka plików jednocześnie. Wszystkie zostaną skonwertowane i spakowane do jednego ZIP.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Konwersja jest w pełni lokalna.</strong> Obrazy są przetwarzane przez Canvas API bezpośrednio
+        w przeglądarce. Żaden plik nie opuszcza Twojego komputera.
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <template id="imgCardTpl">
+    <div class="img-card" role="listitem">
+      <div class="ic-thumb-wrap">
+        <img class="ic-img" alt="" />
+        <button class="ic-del" aria-label="Usuń obraz">
+          <span class="ti ti-x" aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="ic-meta">
+        <span class="ic-name"></span>
+        <span class="ic-size"></span>
+      </div>
+    </div>
+  </template>
+
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="/shared/layout.js"></script>
+  <script src="./convert-image.js"></script>
+</body>
+</html>

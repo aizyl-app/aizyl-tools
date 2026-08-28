@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sprawdź, co Twoje zdjęcie mówi o Tobie: dokładną datę wykonania, model urządzenia, czasem lokalizację. Usuń to jednym kliknięciem, bez wysyłania pliku." />
+  <title>Czyszczenie metadanych | Narzędzia Aizyl</title>
+
+  <meta property="og:title" content="Czyszczenie metadanych — Aizyl" />
+  <meta property="og:description" content="Każde zdjęcie niesie datę co do sekundy i model urządzenia. Zobacz, co wysyłasz razem z plikiem." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/metadata/" />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./metadata.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzędzia</a>
+        <h1>Czyszczenie metadanych</h1>
+        <p>Każde zdjęcie niesie ze sobą dokładną datę wykonania, model urządzenia, a czasem współrzędne miejsca, w którym powstało. Zobacz, co wysyłasz razem z plikiem i usuń to.</p>
+        <span class="pill"><span class="dot"></span> Pliki zostają na tym komputerze</span>
+      </div>
+
+      <div class="dropzone" id="dropzone" tabindex="0" role="button"
+           aria-label="Wybierz pliki do sprawdzenia">
+        <span class="ti ti-photo-search dz-icon" aria-hidden="true"></span>
+        <p class="dz-title">Przeciągnij zdjęcia tutaj</p>
+        <p class="dz-sub">albo kliknij, żeby wybrać · JPEG i PNG · możesz wrzucić kilka naraz</p>
+      </div>
+      <input type="file" id="picker" hidden multiple accept="image/jpeg,image/png,.jpg,.jpeg,.png" />
+
+      <div class="results" id="results"></div>
+
+      <div class="explainer">
+        <h2>Co siedzi w Twoich plikach</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-clock" aria-hidden="true"></span>
+            <h3>Kiedy</h3>
+            <p>Data i godzina z dokładnością do sekundy. Bywa niewygodna, gdy nie zgadza się z tym, co napisałeś w zgłoszeniu.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-device-mobile" aria-hidden="true"></span>
+            <h3>Czym</h3>
+            <p>Marka i model urządzenia, obiektyw, a w części aparatów także numer seryjny, ten sam we wszystkich Twoich zdjęciach.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-map-pin" aria-hidden="true"></span>
+            <h3>Gdzie</h3>
+            <p>Jeśli w aparacie masz włączone znaczniki lokalizacji, zdjęcie ujawnia miejsce z dokładnością do kilku metrów. Nowsze telefony mają to domyślnie wyłączone.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-user" aria-hidden="true"></span>
+            <h3>Kto</h3>
+            <p>Autor, właściciel aparatu i nazwa oprogramowania, w którym plik był obrabiany.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Czyszczenie jest bezstratne.</strong> Nie kodujemy obrazu ponownie. Usuwamy tylko
+        sekcje z opisem, a same dane obrazu zostają bajt w bajt takie same. Jakość się nie zmienia.
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <script src="/shared/layout.js"></script>
+  <script src="./metadata.js"></script>
+</body>
+</html>

@@ -1,0 +1,413 @@
+﻿{
+    "categories":  [
+                       {
+                           "id":  "pdf",
+                           "name":  "PDF"
+                       },
+                       {
+                           "id":  "obrazy",
+                           "name":  "Obrazy"
+                       },
+                       {
+                           "id":  "audio",
+                           "name":  "Audio i wideo"
+                       },
+                       {
+                           "id":  "tekst",
+                           "name":  "Operacje tekstowe"
+                       },
+                       {
+                           "id":  "dane",
+                           "name":  "Dane i pliki"
+                       }
+                   ],
+    "modules":  [
+                    {
+                        "id":  "rotate",
+                        "name":  "Obracanie stron PDF",
+                        "desc":  "Obróć dowolne strony dokumentu o 90° w lewo lub prawo. Możesz obrócić jedną stronę albo cały dokument.",
+                        "category":  "pdf",
+                        "icon":  "ti-rotate-clockwise",
+                        "path":  "/modules/rotate/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "compress",
+                        "name":  "Kompresja PDF",
+                        "desc":  "Zmniejsz rozmiar dokumentu przed wysłaniem. Wybierz poziom kompresji i pobierz lżejszy plik.",
+                        "category":  "pdf",
+                        "icon":  "ti-file-zip",
+                        "path":  "/modules/compress/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "password",
+                        "name":  "Hasło PDF",
+                        "desc":  "Dodaj hasło do dokumentu przed wysłaniem albo usuń istniejące zabezpieczenie. Plik nie opuszcza przeglądarki.",
+                        "category":  "pdf",
+                        "icon":  "ti-lock",
+                        "path":  "/modules/password/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "split",
+                        "name":  "Podział PDF",
+                        "desc":  "Zaznacz strony, które chcesz zachować, i pobierz je jako nowy plik lub każdą stronę osobno. Bez wysyłania dokumentu na serwer.",
+                        "category":  "pdf",
+                        "icon":  "ti-scissors",
+                        "path":  "/modules/split/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "diff",
+                        "name":  "Porównanie dokumentów",
+                        "desc":  "Zobacz, co zmieniło się między dwiema wersjami umowy. Słowo po słowie.",
+                        "category":  "pdf",
+                        "icon":  "ti-git-compare",
+                        "path":  "/modules/diff/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "metadata",
+                        "name":  "Czyszczenie metadanych",
+                        "desc":  "Zobacz, co niesie ze sobą Twoje zdjęcie: datę, urządzenie, czasem lokalizację i usuń to.",
+                        "category":  "pdf",
+                        "icon":  "ti-file-shredder",
+                        "path":  "/modules/metadata/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "merge",
+                        "name":  "Scalanie PDF",
+                        "desc":  "Połącz umowy, faktury i skany w jeden plik. Zmień kolejność stron, usuń zbędne, obróć jeśli trzeba. Lokalnie.",
+                        "category":  "pdf",
+                        "icon":  "ti-files",
+                        "path":  "/modules/merge/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "organize",
+                        "name":  "Organizuj PDF",
+                        "desc":  "Zmień kolejność stron, usuń zbędne i obróć skany w jednym dokumencie. Przeciągnij strony lub wpisz numer pozycji. Plik nie opuszcza przeglądarki.",
+                        "category":  "pdf",
+                        "icon":  "ti-layout-list",
+                        "path":  "/modules/organize/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "hidden",
+                        "name":  "Ukryte treści w dokumencie",
+                        "desc":  "Komentarze z autorem, śledzone zmiany, ukryty tekst, adnotacje PDF. Wszystko, czego nie widać w normalnym podglądzie, a co zostaje w pliku po wysłaniu.",
+                        "category":  "pdf",
+                        "icon":  "ti-eye-search",
+                        "path":  "/modules/hidden/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "sign",
+                        "name":  "Wypełnianie i podpisywanie PDF",
+                        "desc":  "Wypełnij formularz lub umowę i złóż podpis bez drukowania i skanowania. Dokument nie opuszcza Twojej przeglądarki.",
+                        "category":  "pdf",
+                        "icon":  "ti-signature",
+                        "path":  "/modules/sign/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "pdf-to-image",
+                        "name":  "PDF na obraz",
+                        "desc":  "Zamień wybrane strony PDF na obrazy JPG, PNG lub WebP. Jedna strona pobiera się bezpośrednio, kilka jako ZIP.",
+                        "category":  "pdf",
+                        "icon":  "ti-photo-scan",
+                        "path":  "/modules/pdf-to-image/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "page-numbers",
+                        "name":  "Numery stron PDF",
+                        "desc":  "Dodaj numery stron do dokumentu. Wybierz pozycję, rozmiar, prefiks i kolor. Plik nie opuszcza przeglądarki.",
+                        "category":  "pdf",
+                        "icon":  "ti-list-numbers",
+                        "path":  "/modules/page-numbers/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "scan",
+                        "name":  "Skan do PDF",
+                        "desc":  "Sfotografuj dokument kamerą i zapisz jako PDF. Każde zdjęcie to jedna strona. Zmień kolejność przed zapisem. Nic nie opuszcza przeglądarki.",
+                        "category":  "pdf",
+                        "icon":  "ti-camera",
+                        "path":  "/modules/scan/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "ocr",
+                        "name":  "OCR PDF",
+                        "desc":  "Rozpoznaj tekst ze skanów i zdjęć w dokumencie PDF. Wynik skopiuj lub pobierz jako plik tekstowy. Model językowy działa lokalnie.",
+                        "category":  "pdf",
+                        "icon":  "ti-text-recognition",
+                        "path":  "/modules/ocr/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "crop",
+                        "name":  "Przycinanie PDF",
+                        "desc":  "Zaznacz myszką obszar do zachowania na każdej stronie. Przytnij białe marginesy i zbędne obszary. Plik nie opuszcza przeglądarki.",
+                        "category":  "pdf",
+                        "icon":  "ti-crop",
+                        "path":  "/modules/crop/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "redact",
+                        "name":  "Trwałe zaczernianie PDF",
+                        "desc":  "Zamaskuj fragment tak, żeby nie dało się go odzyskać zaznaczeniem.",
+                        "category":  "pdf",
+                        "icon":  "ti-square-half",
+                        "path":  "/modules/redact/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "image-to-pdf",
+                        "name":  "Obrazy do PDF",
+                        "desc":  "Połącz zdjęcia i skany w jeden plik PDF. Zmień kolejność przeciągając. Wybierz rozmiar strony. Pliki nie opuszczają przeglądarki.",
+                        "category":  "pdf",
+                        "icon":  "ti-photo-plus",
+                        "path":  "/modules/image-to-pdf/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "crop-image",
+                        "name":  "Przycinanie obrazu",
+                        "desc":  "Zaznacz myszką obszar do zachowania. Wybierz proporcje 1:1, 4:3, 16:9 lub zaznacz swobodnie. Plik nie opuszcza przeglądarki.",
+                        "category":  "obrazy",
+                        "icon":  "ti-crop",
+                        "path":  "/modules/crop-image/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "heic-to-jpg",
+                        "name":  "Konwertuj HEIC",
+                        "desc":  "Zamień zdjęcia HEIC i HEIF z iPhone na JPG, PNG lub WebP. Wiele plików naraz, wynik jako ZIP. Lokalnie w przeglądarce.",
+                        "category":  "obrazy",
+                        "icon":  "ti-brand-apple",
+                        "path":  "/modules/heic-to-jpg/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "strip-exif",
+                        "name":  "Usuń metadane EXIF",
+                        "desc":  "Wyczyść ze zdjęć datę, lokalizację GPS i dane aparatu przed udostępnieniem. Wiele plików naraz. Lokalnie.",
+                        "category":  "obrazy",
+                        "icon":  "ti-camera-off",
+                        "path":  "/modules/strip-exif/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "resize-image",
+                        "name":  "Zmiana rozmiaru obrazu",
+                        "desc":  "Zmniejsz zdjęcia do konkretnych wymiarów lub procentu oryginału. Tryb procentowy i pikselowy. Wiele plików naraz. Lokalnie.",
+                        "category":  "obrazy",
+                        "icon":  "ti-arrows-minimize",
+                        "path":  "/modules/resize-image/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "compress-image",
+                        "name":  "Kompresja obrazu",
+                        "desc":  "Zmniejsz rozmiar zdjęć przed wysyłką. Ustaw jakość suwakiem i pobierz lżejsze pliki. Wiele naraz jako ZIP. Lokalnie.",
+                        "category":  "obrazy",
+                        "icon":  "ti-photo-down",
+                        "path":  "/modules/compress-image/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "convert-image",
+                        "name":  "Konwertuj obraz",
+                        "desc":  "Zamień zdjęcia między formatami JPG, PNG i WebP. Wiele plików naraz, wynik jako ZIP. Lokalnie, bez wysyłania plików.",
+                        "category":  "obrazy",
+                        "icon":  "ti-photo-cog",
+                        "path":  "/modules/convert-image/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "remove-bg",
+                        "name":  "Usuń tło",
+                        "desc":  "Wytnij obiekt lub osobę ze zdjęcia. Model AI działa lokalnie w przeglądarce. Wynik jako PNG z przezroczystym tłem. Plik nie wychodzi.",
+                        "category":  "obrazy",
+                        "icon":  "ti-cut",
+                        "path":  "/modules/remove-bg/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "watermark",
+                        "name":  "Znak wodny PDF",
+                        "desc":  "Dodaj tekstowy znak wodny do każdej strony dokumentu. Ustaw treść, kolor, rozmiar i kąt. Plik nie opuszcza przeglądarki.",
+                        "category":  "pdf",
+                        "icon":  "ti-droplet",
+                        "path":  "/modules/watermark/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "video-to-mp3",
+                        "name":  "Wideo na MP3",
+                        "desc":  "Wyciągnij dźwięk z dowolnego wideo jako plik MP3. Działa lokalnie, plik nie opuszcza przeglądarki.",
+                        "category":  "audio",
+                        "icon":  "ti-music",
+                        "path":  "/modules/video-to-mp3/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "trim-audio",
+                        "name":  "Przycinanie audio",
+                        "desc":  "Wytnij fragment pliku audio podając czas początku i końca. Lokalnie, bez wysyłania pliku.",
+                        "category":  "audio",
+                        "icon":  "ti-cut",
+                        "path":  "/modules/trim-audio/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "trim-video",
+                        "name":  "Przycinanie wideo",
+                        "desc":  "Wytnij fragment wideo podając czas początku i końca. Plik nie opuszcza przeglądarki.",
+                        "category":  "audio",
+                        "icon":  "ti-movie",
+                        "path":  "/modules/trim-video/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "compress-audio",
+                        "name":  "Kompresja audio",
+                        "desc":  "Zmniejsz rozmiar pliku audio obniżając bitrate. Lokalnie w przeglądarce.",
+                        "category":  "audio",
+                        "icon":  "ti-file-zip",
+                        "path":  "/modules/compress-audio/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "video-to-gif",
+                        "name":  "Wideo na GIF",
+                        "desc":  "Zamień fragment wideo w animowany GIF. Ustaw rozmiar i liczbę klatek. Lokalnie.",
+                        "category":  "audio",
+                        "icon":  "ti-gif",
+                        "path":  "/modules/video-to-gif/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "base64",
+                        "name":  "Base64",
+                        "desc":  "Koduj i dekoduj tekst lub pliki w formacie Base64. Wszystko odbywa sie lokalnie w przegladarce.",
+                        "category":  "tekst",
+                        "icon":  "ti-code",
+                        "path":  "/modules/base64/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "text-diff",
+                        "name":  "Porownanie tekstu",
+                        "desc":  "Porownaj dwa bloki tekstu i zobacz roznice slowo po slowie. Lokalnie, bez wysylania danych.",
+                        "category":  "tekst",
+                        "icon":  "ti-git-compare",
+                        "path":  "/modules/text-diff/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "lorem-ipsum",
+                        "name":  "Lorem Ipsum",
+                        "desc":  "Generuj tekst zastepczy do projektow i makiet. Wybierz liczbe akapitow lub slow.",
+                        "category":  "tekst",
+                        "icon":  "ti-text-plus",
+                        "path":  "/modules/lorem-ipsum/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "encrypt-text",
+                        "name":  "Szyfrowanie tekstu",
+                        "desc":  "Zaszyfruj poufny tekst haslem. Mozesz go pozniej odszyrowac tym samym haslem. Lokalnie.",
+                        "category":  "tekst",
+                        "icon":  "ti-lock-password",
+                        "path":  "/modules/encrypt-text/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "markdown-editor",
+                        "name":  "Edytor Markdown",
+                        "desc":  "Pisz w Markdown i widzisz podglad na zywo obok. Pobierz wynik jako HTML lub MD.",
+                        "category":  "tekst",
+                        "icon":  "ti-markdown",
+                        "path":  "/modules/markdown-editor/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "word-counter",
+                        "name":  "Licznik slow",
+                        "desc":  "Policz slowa, znaki, wiersze i czas czytania. Wklej dowolny tekst i see wyniki od razu.",
+                        "category":  "tekst",
+                        "icon":  "ti-abc",
+                        "path":  "/modules/word-counter/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "case-converter",
+                        "name":  "Konwerter wielkosci liter",
+                        "desc":  "Zamien tekst na WIELKIE, male, Tytulowe, camelCase lub snake_case. Lokalnie.",
+                        "category":  "tekst",
+                        "icon":  "ti-letter-case",
+                        "path":  "/modules/case-converter/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "zip-create",
+                        "name":  "Utwórz ZIP",
+                        "desc":  "Połącz dowolne pliki w archiwum ZIP. Działa lokalnie, pliki nie opuszczają przeglądarki.",
+                        "category":  "dane",
+                        "icon":  "ti-file-zip",
+                        "path":  "/modules/zip-create/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "zip-extract",
+                        "name":  "Rozpakuj ZIP",
+                        "desc":  "Przeglądaj i wypakowuj pliki z archiwum ZIP. Lokalnie, bez wysyłania pliku.",
+                        "category":  "dane",
+                        "icon":  "ti-archive",
+                        "path":  "/modules/zip-extract/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "hash-file",
+                        "name":  "Hash pliku",
+                        "desc":  "Oblicz sumę kontrolną SHA-256 dowolnego pliku. Sprawdź integralność pobranego pliku.",
+                        "category":  "dane",
+                        "icon":  "ti-fingerprint",
+                        "path":  "/modules/hash-file/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "encrypt-file",
+                        "name":  "Szyfrowanie pliku",
+                        "desc":  "Zaszyfruj dowolny plik hasłem. Do odszyfrowania potrzebne jest to samo hasło. Lokalnie.",
+                        "category":  "dane",
+                        "icon":  "ti-lock",
+                        "path":  "/modules/encrypt-file/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "qr-code",
+                        "name":  "Kod QR",
+                        "desc":  "Wygeneruj kod QR z dowolnego tekstu lub linku. Pobierz jako PNG. Lokalnie w przeglądarce.",
+                        "category":  "dane",
+                        "icon":  "ti-qrcode",
+                        "path":  "/modules/qr-code/",
+                        "status":  "ready"
+                    },
+                    {
+                        "id":  "split-file",
+                        "name":  "Podział pliku",
+                        "desc":  "Podziel duży plik na mniejsze części. Przydatne przy limitach rozmiaru. Lokalnie.",
+                        "category":  "dane",
+                        "icon":  "ti-scissors",
+                        "path":  "/modules/split-file/",
+                        "status":  "ready"
+                    }
+                ]
+}

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Oblicz sume kontrolna SHA-256 dowolnego pliku. Sprawdz integralnosc pobranego pliku. Dziala lokalnie." />
+  <title>Hash pliku | Narzedzia Aizyl</title>
+  <meta property="og:title" content="Hash pliku - Aizyl" />
+  <meta property="og:description" content="Oblicz SHA-256 dowolnego pliku lokalnie w przegladarce." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/hash-file/" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./hash-file.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzedzia</a>
+        <h1>Hash pliku</h1>
+        <p>Oblicz sume kontrolna SHA-256 dowolnego pliku i sprawdz jego integralnosc. Dziala lokalnie.</p>
+        <span class="pill"><span class="dot"></span> Plik zostaje na tym komputerze</span>
+      </div>
+
+      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Wybierz plik">
+        <span class="ti ti-fingerprint dz-icon" aria-hidden="true"></span>
+        <p class="dz-title">Przeciagnij dowolny plik tutaj</p>
+        <p class="dz-sub">albo kliknij, zeby wybrac</p>
+      </div>
+      <input type="file" id="picker" hidden />
+
+      <div class="workspace" id="workspace" hidden>
+
+        <div class="file-info" id="fileInfo"></div>
+
+        <div class="hash-section">
+          <div class="algo-bar">
+            <button class="algo-btn active" data-algo="SHA-256">SHA-256</button>
+            <button class="algo-btn" data-algo="SHA-1">SHA-1</button>
+            <button class="algo-btn" data-algo="SHA-512">SHA-512</button>
+          </div>
+
+          <div class="load-progress" id="loadProgress" hidden>
+            <div class="lp-bar"><div class="lp-fill" id="lpFill"></div></div>
+            <span class="lp-label" id="lpLabel">Obliczam hash...</span>
+          </div>
+
+          <div class="hash-result" id="hashResult" hidden>
+            <div class="hash-label" id="hashLabel">SHA-256</div>
+            <div class="hash-value" id="hashValue"></div>
+            <div class="action-bar">
+              <button class="btn btn-ghost btn-sm" id="btnCopy">
+                <span class="ti ti-copy" aria-hidden="true"></span> Kopiuj hash
+              </button>
+            </div>
+          </div>
+
+          <div class="verify-section">
+            <p class="quality-label">Porownaj z oczekiwanym hashem (opcjonalnie)</p>
+            <div class="verify-row">
+              <input class="verify-input" type="text" id="verifyInput" placeholder="Wklej hash do porownania..." spellcheck="false" />
+              <div class="verify-badge" id="verifyBadge" hidden></div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-ghost btn-sm" id="btnNewFile">
+          <span class="ti ti-folder-open" aria-hidden="true"></span> Inny plik
+        </button>
+
+      </div>
+
+      <div class="explainer">
+        <h2>Do czego sluzy hash pliku</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-shield-check" aria-hidden="true"></span>
+            <h3>Weryfikacja pobranych plikow</h3>
+            <p>Sprawdz czy pobrany plik jest identyczny z oryginalem i nie zostal zmodyfikowany.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-file-check" aria-hidden="true"></span>
+            <h3>Integralnosc dokumentow</h3>
+            <p>Upewnij sie ze dokument nie zmienil sie od chwili jego podpisania lub wyslania.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-git-compare" aria-hidden="true"></span>
+            <h3>Porownanie plikow</h3>
+            <p>Dwa pliki o tym samym hashu sa identyczne, nawet jesli maja rozne nazwy.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Wszystko lokalnie</h3>
+            <p>Plik nie opuszcza Twojej przegladarki. Hash obliczany jest na Twoim komputerze.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <script src="/shared/layout.js"></script>
+  <script src="./hash-file.js"></script>
+</body>
+</html>

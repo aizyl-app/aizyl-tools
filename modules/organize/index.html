@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Zmieniaj kolejność stron, usuwaj i obracaj strony w dokumencie PDF. Wszystko lokalnie, bez wysyłania pliku na serwer." />
+  <title>Organizuj PDF | Narzędzia Aizyl</title>
+
+  <meta property="og:title" content="Organizuj PDF – Aizyl" />
+  <meta property="og:description" content="Zmień kolejność stron, usuń zbędne, obróć skany. Plik nie opuszcza Twojej przeglądarki." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/organize/" />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./organize.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzędzia</a>
+        <h1>Organizuj PDF</h1>
+        <p>Zmień kolejność stron, usuń zbędne, obróć skany. Bez wysyłania dokumentu na cudzy serwer.</p>
+        <span class="pill"><span class="dot"></span> Plik zostaje na tym komputerze</span>
+      </div>
+
+      <div class="dropzone" id="dropzone" tabindex="0" role="button"
+           aria-label="Wybierz plik PDF do organizowania">
+        <span class="ti ti-layout-list dz-icon" aria-hidden="true"></span>
+        <p class="dz-title">Przeciągnij plik PDF tutaj</p>
+        <p class="dz-sub">albo kliknij, żeby wybrać</p>
+      </div>
+      <input type="file" id="picker" hidden accept="application/pdf,.pdf" />
+
+      <div class="load-progress" id="loadProgress" hidden>
+        <div class="lp-bar"><div class="lp-fill" id="lpFill"></div></div>
+        <span class="lp-label" id="lpLabel">Wczytuję strony…</span>
+      </div>
+
+      <div class="workspace" id="workspace" hidden>
+        <div class="ws-toolbar">
+          <span class="ws-count" id="wsCount"></span>
+          <div class="ws-actions">
+            <button class="btn btn-ghost btn-sm" id="btnChange">
+              <span class="ti ti-refresh" aria-hidden="true"></span> Zmień plik
+            </button>
+            <button class="btn btn-ghost btn-sm" id="btnClear">
+              <span class="ti ti-trash" aria-hidden="true"></span> Wyczyść
+            </button>
+          </div>
+        </div>
+
+        <div class="page-grid" id="pageGrid" role="list"
+             aria-label="Strony dokumentu. Przeciągnij, żeby zmienić kolejność"></div>
+
+        <div class="organize-bar">
+          <button class="btn btn-primary" id="btnSave">
+            <span class="ti ti-file-download" aria-hidden="true"></span>
+            Pobierz zorganizowany PDF
+          </button>
+          <span class="organize-info" id="organizeInfo"></span>
+        </div>
+      </div>
+
+      <div class="explainer">
+        <h2>Co możesz zrobić z tym narzędziem</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-arrows-sort" aria-hidden="true"></span>
+            <h3>Zmień kolejność stron</h3>
+            <p>Przeciągnij strony w dowolne miejsce. Wpisz numer pozycji albo użyj strzałek.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-trash" aria-hidden="true"></span>
+            <h3>Usuń zbędne strony</h3>
+            <p>Wyrzuć puste strony, okładki, stopki czy duplikaty zanim wyślesz dokument.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-rotate-clockwise" aria-hidden="true"></span>
+            <h3>Obróć skany</h3>
+            <p>Skany często wychodzą przekrzywione. Obróć każdą stronę o 90°. Obrót trafia do pliku.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Plik nie wychodzi</h3>
+            <p>Wszystko dzieje się w Twojej przeglądarce. Żaden bajt dokumentu nie trafia na zewnętrzny serwer.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Organizowanie jest w pełni lokalne.</strong> Biblioteki pdf-lib i PDF.js działają bezpośrednio
+        w przeglądarce. Żadne dane nie opuszczają Twojego komputera.
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <template id="pageTpl">
+    <div class="page-card" role="listitem" draggable="true">
+      <div class="pc-thumb-wrap">
+        <canvas class="pc-canvas"></canvas>
+        <div class="pc-spinner" aria-hidden="true"></div>
+        <div class="pc-overlay">
+          <button class="pc-btn pc-rotate" title="Obróć o 90°" aria-label="Obróć stronę o 90°">
+            <span class="ti ti-rotate-clockwise" aria-hidden="true"></span>
+          </button>
+          <button class="pc-btn pc-delete" title="Usuń stronę" aria-label="Usuń stronę">
+            <span class="ti ti-trash" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+      <div class="pc-meta">
+        <span class="pc-num"></span>
+      </div>
+      <div class="pc-kbd" role="group" aria-label="Zmień pozycję strony">
+        <button class="pc-move pc-move-left" aria-label="Przesuń w lewo">
+          <span class="ti ti-chevron-left" aria-hidden="true"></span>
+        </button>
+        <label class="pc-pos-label" aria-label="Pozycja strony">
+          <input type="number" class="pc-pos-input" min="1" aria-label="Numer pozycji" />
+        </label>
+        <button class="pc-move pc-move-right" aria-label="Przesuń w prawo">
+          <span class="ti ti-chevron-right" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </template>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="/shared/layout.js"></script>
+  <script src="./organize.js"></script>
+</body>
+</html>

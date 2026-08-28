@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Podziel duzy plik na mniejsze czesci. Przydatne przy limitach rozmiaru. Dziala lokalnie." />
+  <title>Podzial pliku | Narzedzia Aizyl</title>
+  <meta property="og:title" content="Podzial pliku - Aizyl" />
+  <meta property="og:description" content="Podziel duzy plik na mniejsze czesci lokalnie w przegladarce." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/split-file/" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./split-file.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzedzia</a>
+        <h1>Podzial pliku</h1>
+        <p>Podziel duzy plik na mniejsze czesci o wybranym rozmiarze. Pliki nie opuszczaja przegladarki.</p>
+        <span class="pill"><span class="dot"></span> Plik zostaje na tym komputerze</span>
+      </div>
+
+      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Wybierz plik">
+        <span class="ti ti-scissors dz-icon" aria-hidden="true"></span>
+        <p class="dz-title">Przeciagnij dowolny plik tutaj</p>
+        <p class="dz-sub">albo kliknij, zeby wybrac</p>
+      </div>
+      <input type="file" id="picker" hidden />
+
+      <div class="workspace" id="workspace" hidden>
+
+        <div class="file-info" id="fileInfo"></div>
+
+        <div class="options-card">
+          <div class="option-group">
+            <p class="quality-label">Rozmiar kazdej czesci</p>
+            <div class="size-grid">
+              <button class="quality-btn" data-mb="1">
+                <span class="qb-title">1 MB</span>
+                <span class="qb-desc">Email, formularze</span>
+              </button>
+              <button class="quality-btn" data-mb="5">
+                <span class="qb-title">5 MB</span>
+                <span class="qb-desc">Wiekszosc serwisow</span>
+              </button>
+              <button class="quality-btn active" data-mb="10">
+                <span class="qb-title">10 MB</span>
+                <span class="qb-desc">Polecany</span>
+              </button>
+              <button class="quality-btn" data-mb="25">
+                <span class="qb-title">25 MB</span>
+                <span class="qb-desc">Dysk, chmura</span>
+              </button>
+              <button class="quality-btn" data-mb="50">
+                <span class="qb-title">50 MB</span>
+                <span class="qb-desc">Duze transfery</span>
+              </button>
+              <button class="quality-btn" data-mb="100">
+                <span class="qb-title">100 MB</span>
+                <span class="qb-desc">Bardzo duze pliki</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="custom-size-row">
+            <span class="quality-label">Lub wpisz wlasny rozmiar (MB):</span>
+            <input class="custom-input" type="number" id="customMb" min="1" max="10000" placeholder="np. 20" />
+          </div>
+
+          <div class="split-info" id="splitInfo"></div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" id="btnSplit">
+            <span class="ti ti-scissors" aria-hidden="true"></span>
+            Podziel i pobierz czesci
+          </button>
+          <button class="btn btn-ghost btn-sm" id="btnNewFile">
+            <span class="ti ti-folder-open" aria-hidden="true"></span> Inny plik
+          </button>
+        </div>
+
+        <div class="load-progress" id="loadProgress" hidden>
+          <div class="lp-bar"><div class="lp-fill" id="lpFill"></div></div>
+          <span class="lp-label" id="lpLabel">Dziele plik...</span>
+        </div>
+
+      </div>
+
+      <div class="explainer">
+        <h2>Kiedy podzial pliku sie przydaje</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-mail" aria-hidden="true"></span>
+            <h3>Limity zalaczenikow</h3>
+            <p>Podziel duzy plik na czesci mieszczace sie w limicie rozmiaru zalaczenika emaila.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-cloud-upload" aria-hidden="true"></span>
+            <h3>Upload do serwisow</h3>
+            <p>Wiele platform ma limit rozmiaru pojedynczego pliku. Mniejsze czesci zawsze przejda.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-antenna" aria-hidden="true"></span>
+            <h3>Wolne polaczenie</h3>
+            <p>Mniejsze czesci latwiej wyslac przez wolne lub zawodne polaczenie internetowe.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Wszystko lokalnie</h3>
+            <p>Plik nie opuszcza Twojej przegladarki. Podzial odbywa sie na Twoim komputerze.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <script src="/shared/layout.js"></script>
+  <script src="./split-file.js"></script>
+</body>
+</html>

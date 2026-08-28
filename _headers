@@ -1,0 +1,14 @@
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: no-referrer
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+
+# UWAGA — nie włączaj COOP/COEP globalnie.
+# require-corp zablokuje Google Fonts i Tabler Icons ładowane z CDN.
+# Włącz je dopiero dla konkretnego modułu, który potrzebuje SharedArrayBuffer
+# (wielowątkowy WASM, OCR, ffmpeg), i najpierw zhostuj fonty oraz ikony lokalnie.
+#
+# /modules/ocr/*
+#   Cross-Origin-Opener-Policy: same-origin
+#   Cross-Origin-Embedder-Policy: require-corp

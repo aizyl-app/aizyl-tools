@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Wyciągnij dźwięk z wideo jako plik MP3. Działa lokalnie, plik nie opuszcza Twojej przeglądarki." />
+  <title>Wideo na MP3 | Narzędzia Aizyl</title>
+  <meta property="og:title" content="Wideo na MP3 — Aizyl" />
+  <meta property="og:description" content="Wyciągnij audio z wideo. Plik nie opuszcza Twojej przeglądarki." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/video-to-mp3/" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./video-to-mp3.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzędzia</a>
+        <h1>Wideo na MP3</h1>
+        <p>Wyciągnij dźwięk z dowolnego wideo jako plik MP3. Plik nie opuszcza Twojej przeglądarki.</p>
+        <span class="pill"><span class="dot"></span> Pliki zostają na tym komputerze</span>
+      </div>
+
+      <div class="dropzone" id="dropzone" tabindex="0" role="button"
+           aria-label="Wybierz plik wideo">
+        <span class="ti ti-music dz-icon" aria-hidden="true"></span>
+        <p class="dz-title">Przeciągnij plik wideo tutaj</p>
+        <p class="dz-sub">albo kliknij, żeby wybrać · MP4, MKV, AVI, MOV, WebM</p>
+      </div>
+      <input type="file" id="picker" hidden accept="video/*,.mkv,.avi,.mov,.mp4,.webm,.m4v,.flv" />
+
+      <div class="workspace" id="workspace" hidden>
+
+        <div class="file-info" id="fileInfo"></div>
+
+        <div class="quality-section">
+          <p class="quality-label">Jakość audio</p>
+          <div class="quality-grid" role="group" aria-label="Wybierz jakość">
+            <button class="quality-btn" id="preset128" data-bitrate="128">
+              <span class="ti ti-device-floppy qb-icon" aria-hidden="true"></span>
+              <span class="qb-title">128 kbps</span>
+              <span class="qb-desc">Mały plik. Dobry do mowy i podcastów.</span>
+            </button>
+            <button class="quality-btn active" id="preset192" data-bitrate="192">
+              <span class="ti ti-adjustments-horizontal qb-icon" aria-hidden="true"></span>
+              <span class="qb-title">192 kbps</span>
+              <span class="qb-desc">Balans jakości i rozmiaru. Polecany.</span>
+            </button>
+            <button class="quality-btn" id="preset320" data-bitrate="320">
+              <span class="ti ti-headphones qb-icon" aria-hidden="true"></span>
+              <span class="qb-title">320 kbps</span>
+              <span class="qb-desc">Najwyższa jakość. Większy plik.</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" id="btnConvert">
+            <span class="ti ti-music" aria-hidden="true"></span>
+            Konwertuj na MP3
+          </button>
+          <button class="btn btn-ghost btn-sm" id="btnNewFile">
+            <span class="ti ti-folder-open" aria-hidden="true"></span> Inny plik
+          </button>
+        </div>
+
+        <div class="load-progress" id="loadProgress" hidden>
+          <div class="lp-bar"><div class="lp-fill" id="lpFill"></div></div>
+          <span class="lp-label" id="lpLabel">Przygotowuję...</span>
+        </div>
+
+        <div class="result-card" id="resultCard" hidden>
+          <div class="result-sizes">
+            <div class="result-size">
+              <span class="rs-label">Wideo</span>
+              <span class="rs-value" id="sizeBefore"></span>
+            </div>
+            <span class="ti ti-arrow-right result-arrow" aria-hidden="true"></span>
+            <div class="result-size">
+              <span class="rs-label">MP3</span>
+              <span class="rs-value rs-value-after" id="sizeAfter"></span>
+            </div>
+          </div>
+          <button class="btn btn-primary" id="btnDownload">
+            <span class="ti ti-file-download" aria-hidden="true"></span>
+            Pobierz MP3
+          </button>
+        </div>
+
+      </div>
+
+      <div class="explainer">
+        <h2>Do czego przydaje się wyciąganie audio</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-microphone" aria-hidden="true"></span>
+            <h3>Nagrania ze spotkań</h3>
+            <p>Wyciągnij audio z nagrania Teams lub Zoom i wyślij tylko dźwięk, bez obrazu.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-headphones" aria-hidden="true"></span>
+            <h3>Muzyka z wideo</h3>
+            <p>Zachowaj ścieżkę dźwiękową z wideo jako plik audio do odsłuchania offline.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-device-floppy" aria-hidden="true"></span>
+            <h3>Mniejszy plik</h3>
+            <p>MP3 z wideo to ułamek oryginalnego rozmiaru, łatwiej wysłać i przechować.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Wszystko lokalnie</h3>
+            <p>Konwersja odbywa się w Twojej przeglądarce. Wideo nie trafia na żaden serwer.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <script src="/shared/ffmpeg/ffmpeg.js"></script>
+  <script src="/shared/layout.js"></script>
+  <script src="./video-to-mp3.js"></script>
+</body>
+</html>

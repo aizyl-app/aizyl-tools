@@ -1,0 +1,463 @@
+/* ── Nagłówek modułu ─────────────────────────────────────────────────────── */
+.mod-head { padding: 40px 0 24px; max-width: 760px; }
+.back {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 14px; color: var(--muted-foreground); text-decoration: none; margin-bottom: 16px;
+}
+.back:hover { color: var(--foreground); }
+.mod-head h1 { font-size: 30px; font-weight: 500; letter-spacing: -.015em; margin: 0 0 10px; }
+.mod-head p  { margin: 0 0 16px; color: var(--muted-foreground); font-size: 16px; }
+
+.pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--card-glass); border: 1px solid var(--border); border-radius: 999px;
+  padding: 6px 14px 6px 11px; font-size: 13px;
+  box-shadow: var(--shadow-soft);
+}
+.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--primary); position: relative; }
+.dot::after {
+  content: ''; position: absolute; inset: -4px; border-radius: 50%;
+  border: 1px solid var(--primary); opacity: .35; animation: ping 2.6s ease-out infinite;
+}
+@keyframes ping {
+  0%   { transform: scale(.6); opacity: .5 }
+  70%  { transform: scale(1.5); opacity: 0 }
+  100% { opacity: 0 }
+}
+
+/* ── Strefa upuszczania ───────────────────────────────────────────────────── */
+.dropzone {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  padding: 46px 24px; text-align: center; cursor: pointer;
+  background: var(--card-glass); border: 1px dashed var(--border-soft); border-radius: var(--radius-card);
+  transition: border-color .15s, background .15s;
+  box-shadow: var(--shadow-soft); backdrop-filter: blur(10px);
+}
+.dropzone:hover,
+.dropzone:focus-visible { border-color: var(--primary); outline: none; }
+.dropzone.over { border-color: var(--primary); background: var(--primary-soft); border-style: solid; }
+.dz-icon  { font-size: 30px; color: var(--primary); }
+.dz-title { margin: 4px 0 0; font-size: 17px; }
+.dz-sub   { margin: 0; font-size: 14px; color: var(--muted-foreground); }
+
+/* ── Pasek postępu ────────────────────────────────────────────────────────── */
+.load-progress {
+  display: flex; align-items: center; gap: 14px;
+  margin-top: 14px; padding: 12px 16px;
+  background: var(--card-glass); border: 1px solid var(--border-soft); border-radius: var(--radius-card);
+  box-shadow: var(--shadow-soft); backdrop-filter: blur(10px);
+}
+.lp-bar  { flex: 1; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.lp-fill {
+  height: 100%; width: 0%; background: var(--primary); border-radius: 2px;
+  transition: width .2s ease;
+}
+.lp-label { font-size: 13px; color: var(--muted-foreground); white-space: nowrap; }
+
+/* ── Komunikaty błędów ───────────────────────────────────────────────────── */
+.errors-list { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; }
+.file-error {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 12px 16px;
+  background: rgba(140,36,56,.06); border: 1px solid rgba(140,36,56,.2);
+  border-radius: var(--radius); font-size: 14px; color: var(--danger);
+}
+.file-error .ti { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.file-error-body { min-width: 0; }
+.file-error-name { font-weight: 500; margin-bottom: 2px; }
+.file-error-msg  { color: var(--muted-foreground); font-size: 13px; }
+.file-error-close {
+  margin-left: auto; background: none; border: 0; cursor: pointer;
+  color: var(--muted-foreground); font-size: 16px; padding: 0 0 0 8px; flex-shrink: 0;
+}
+.file-error-close:hover { color: var(--foreground); }
+
+/* ── Obszar roboczy ───────────────────────────────────────────────────────── */
+.workspace {
+  margin-top: 18px;
+  /* Nie blokujemy scroll strony — workspace jest normalnym elementem w flow */
+}
+
+/* ── Pasek narzędzi ───────────────────────────────────────────────────────── */
+.toolbar {
+  display: flex; align-items: center; gap: 4px; flex-wrap: wrap;
+  padding: 8px 12px;
+  background: var(--card-glass); border: 1px solid var(--border-soft); border-radius: var(--radius-card);
+  /* Sticky względem viewportu — zawsze widoczny podczas scrollowania strony */
+  position: sticky; top: 0; z-index: 20;
+  box-shadow: var(--shadow-soft); backdrop-filter: blur(10px);
+  margin-bottom: 8px;
+}
+.tool-group { display: flex; align-items: center; gap: 2px; }
+.tool-sep {
+  width: 1px; height: 28px; background: var(--border); margin: 0 6px; flex-shrink: 0;
+}
+.tool-right { margin-left: auto; }
+
+.tool-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 6px 10px; border: 1px solid transparent; border-radius: var(--radius);
+  background: transparent; color: var(--muted-foreground);
+  cursor: pointer; font-size: 12px; font-family: inherit;
+  transition: background .12s, color .12s, border-color .12s;
+  white-space: nowrap;
+}
+.tool-btn .ti { font-size: 18px; }
+.tool-btn:hover { background: var(--primary-soft); color: var(--primary); }
+.tool-btn.active,
+.tool-btn[aria-pressed="true"] {
+  background: var(--primary-soft); color: var(--primary);
+  border-color: var(--primary);
+}
+.tool-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.tool-btn:disabled { opacity: .35; cursor: default; }
+.tool-label { font-size: 11px; line-height: 1; }
+
+.tool-opt-label {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12.5px; color: var(--muted-foreground);
+}
+.tool-select {
+  font: inherit; font-size: 13px; padding: 4px 6px;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--background); color: var(--foreground); cursor: pointer;
+}
+.tool-select:focus { outline: 2px solid var(--primary); outline-offset: 1px; border-color: transparent; }
+.tool-color {
+  width: 28px; height: 28px; padding: 2px; border: 1px solid var(--border);
+  border-radius: var(--radius); cursor: pointer; background: var(--background);
+}
+.tool-color:focus { outline: 2px solid var(--primary); outline-offset: 1px; }
+
+.check-sym {
+  width: 34px; height: 34px; border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--background); color: var(--foreground);
+  font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: background .12s, border-color .12s;
+}
+.check-sym.active,
+.check-sym[aria-pressed="true"] {
+  background: var(--primary-soft); border-color: var(--primary); color: var(--primary);
+}
+.check-sym:hover { background: var(--primary-soft); border-color: var(--primary); }
+.check-sym:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
+.btn-sm { padding: 7px 13px; font-size: 13px; }
+.btn-danger-ghost {
+  color: var(--danger) !important;
+}
+.btn-danger-ghost:hover { background: var(--danger-soft) !important; }
+
+/* ── Podgląd stron ────────────────────────────────────────────────────────── */
+.pages-wrap {
+  background: #ccc; border-radius: var(--radius);
+  padding: 24px 0;
+  /* Własny scroll o ograniczonej wysokości — wzorzec z diff.css (.scroller) */
+  max-height: min(72vh, 900px);
+  overflow-y: auto;
+  overflow-x: auto;
+  /* Zatrzymaj scroll na granicy obszaru — nie przechodzi na stronę */
+  overscroll-behavior: contain;
+}
+.pages-inner {
+  display: flex; flex-direction: column; align-items: center; gap: 20px;
+}
+
+/* Kontener pojedynczej strony */
+.page-container {
+  position: relative;
+  box-shadow: var(--shadow-md);
+  background: #fff;
+  /* szerokość ustawiana przez JS */
+  flex-shrink: 0;
+}
+
+/* Canvas z renderem PDF */
+.page-canvas {
+  display: block;
+  /* rozmiar ustawiany przez JS */
+}
+
+/* Warstwa adnotacji — leży dokładnie na canvasie */
+.annot-layer {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  overflow: visible;
+  /* kursor zależy od aktywnego narzędzia — ustawiany przez JS */
+}
+
+/* Kursor zależny od narzędzia */
+.annot-layer.tool-text    { cursor: text; }
+.annot-layer.tool-check   { cursor: crosshair; }
+.annot-layer.tool-date    { cursor: text; }
+.annot-layer.tool-sign    { cursor: crosshair; }
+.annot-layer.tool-initial { cursor: crosshair; }
+.annot-layer.tool-stamp   { cursor: crosshair; }
+
+/* ── Elementy adnotacji ───────────────────────────────────────────────────── */
+.annot {
+  position: absolute;
+  user-select: none;
+  touch-action: none;
+}
+.annot:focus { outline: none; }
+
+/* Ramka zaznaczenia */
+.annot.selected {
+  outline: 1.5px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Uchwyt do przesuwania */
+.annot-move {
+  position: absolute;
+  inset: 0;
+  cursor: move;
+}
+
+/* Uchwyt do zmiany rozmiaru (prawy-dolny róg) */
+.annot-resize {
+  position: absolute;
+  right: -5px; bottom: -5px;
+  width: 10px; height: 10px;
+  background: var(--primary);
+  border-radius: 2px;
+  cursor: se-resize;
+  display: none;
+}
+.annot.selected .annot-resize { display: block; }
+
+/* Przycisk usunięcia */
+.annot-delete {
+  position: absolute;
+  top: -10px; right: -10px;
+  width: 18px; height: 18px;
+  border-radius: 50%; border: 0;
+  background: var(--danger); color: #fff;
+  font-size: 10px; line-height: 1;
+  display: none; align-items: center; justify-content: center;
+  cursor: pointer; padding: 0;
+}
+.annot.selected .annot-delete { display: flex; }
+.annot-delete:hover { background: #a02040; }
+
+/* Tekst */
+.annot-text-el {
+  white-space: pre; line-height: 1.3;
+  pointer-events: none;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Edytor inline tekstu */
+.annot-text-input {
+  position: absolute;
+  inset: 0;
+  border: none; outline: none; background: transparent; resize: none;
+  font-family: 'Space Grotesk', sans-serif;
+  line-height: 1.3; padding: 0; margin: 0;
+  overflow: hidden; white-space: pre;
+  color: inherit;
+}
+
+/* Symbol ptaszka / krzyżyka */
+.annot-check-el {
+  pointer-events: none;
+  line-height: 1;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Obraz podpisu / pieczątki */
+.annot-img-el {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  display: block;
+}
+
+/* Pola formularza PDF (wykryte automatycznie) */
+.form-field-hint {
+  position: absolute;
+  background: rgba(11, 105, 81, 0.08);
+  border: 1px dashed var(--primary);
+  border-radius: 2px;
+  cursor: text;
+  transition: background .12s;
+}
+.form-field-hint:hover {
+  background: rgba(11, 105, 81, 0.16);
+}
+.form-field-hint-label {
+  position: absolute;
+  top: -18px; left: 0;
+  font-size: 10px; color: var(--primary);
+  white-space: nowrap; pointer-events: none;
+  background: var(--primary-soft);
+  padding: 1px 4px; border-radius: 2px;
+}
+
+/* ── Pasek statusu ────────────────────────────────────────────────────────── */
+.status-bar {
+  margin-top: 8px; padding: 7px 12px;
+  background: var(--card-glass); border: 1px solid var(--border-soft); border-radius: var(--radius-card);
+  box-shadow: var(--shadow-soft); backdrop-filter: blur(10px);
+  font-size: 12.5px; color: var(--muted-foreground);
+}
+
+/* ── Sekcja wyjaśniająca ─────────────────────────────────────────────────── */
+.explainer { margin-top: 46px; }
+.explainer h2 { font-size: 19px; font-weight: 500; margin: 0 0 16px; }
+.ex-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.ex-item {
+  background: var(--card-glass); border: 1px solid var(--border-soft);
+  border-radius: var(--radius-card); padding: 20px;
+  box-shadow: var(--shadow-soft); backdrop-filter: blur(10px);
+}
+.ex-item .ti { font-size: 20px; color: var(--primary); }
+.ex-item h3  { font-size: 15px; font-weight: 500; margin: 8px 0 5px; }
+.ex-item p   { margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--muted-foreground); }
+
+/* ── Notka DLP ───────────────────────────────────────────────────────────── */
+.note {
+  margin: 34px 0 0; padding: 18px 20px;
+  background: var(--card-glass); border: 1px solid var(--border-soft);
+  border-left: 2px solid var(--primary); border-radius: var(--radius-card);
+  font-size: 14.5px; color: var(--muted-foreground); max-width: 780px;
+}
+.note strong { color: var(--foreground); font-weight: 500; }
+.note a { color: var(--primary); }
+
+/* ── Modal podpisu ───────────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(0,0,0,.45);
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+}
+.modal-overlay[hidden] { display: none; }
+
+.modal {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: calc(var(--radius) * 2);
+  box-shadow: var(--shadow-md);
+  width: 100%; max-width: 520px;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.modal-title { font-size: 17px; font-weight: 500; margin: 0; }
+.modal-close {
+  width: 30px; height: 30px; border-radius: var(--radius); border: 0;
+  background: transparent; color: var(--muted-foreground);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; cursor: pointer;
+}
+.modal-close:hover { background: var(--border); color: var(--foreground); }
+.modal-close:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
+.modal-tabs {
+  display: flex; border-bottom: 1px solid var(--border);
+}
+.modal-tab {
+  flex: 1; padding: 10px 16px; border: 0; background: transparent;
+  font: inherit; font-size: 14px; color: var(--muted-foreground);
+  cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px;
+  transition: color .12s, border-color .12s;
+}
+.modal-tab:hover { color: var(--foreground); }
+.modal-tab.active,
+.modal-tab[aria-selected="true"] {
+  color: var(--primary); border-bottom-color: var(--primary);
+}
+.modal-tab:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
+
+.modal-pane { padding: 16px 20px; }
+.modal-pane[hidden] { display: none; }
+
+/* Canvas rysowania podpisu */
+.sig-canvas-wrap {
+  position: relative;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: #fff; overflow: hidden;
+}
+#sigCanvas {
+  display: block; width: 100%; height: 180px; touch-action: none;
+}
+.sig-hint {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; color: var(--border); pointer-events: none;
+  transition: opacity .2s;
+}
+.sig-hint.hidden { opacity: 0; }
+
+.sig-actions { display: flex; justify-content: flex-end; margin-top: 8px; }
+
+/* Strefa wgrywania zdjęcia */
+.upload-drop {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 6px; padding: 32px 16px; text-align: center; cursor: pointer;
+  border: 1px dashed var(--border); border-radius: var(--radius);
+  background: var(--background); transition: border-color .15s, background .15s;
+}
+.upload-drop:hover,
+.upload-drop:focus-visible { border-color: var(--primary); outline: none; }
+.upload-drop.over { border-color: var(--primary); background: var(--primary-soft); }
+.upload-drop .ti { font-size: 28px; color: var(--primary); }
+.upload-drop p { margin: 0; font-size: 14px; }
+
+.sig-preview-canvas {
+  display: block; width: 100%; margin-top: 12px;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: repeating-conic-gradient(#ccc 0% 25%, #fff 0% 50%) 0 0 / 12px 12px;
+}
+
+/* Stopka modalu */
+.modal-footer {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+  padding: 12px 20px 16px;
+  border-top: 1px solid var(--border);
+}
+.save-sig-label {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--muted-foreground); cursor: pointer;
+}
+.save-sig-label input { cursor: pointer; accent-color: var(--primary); }
+.modal-footer-btns { display: flex; gap: 8px; }
+
+/* Wiersz zapisanego podpisu */
+.saved-sig-row {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 10px 20px 14px;
+  background: var(--primary-soft);
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+}
+.saved-sig-row[hidden] { display: none; }
+.saved-sig-label {
+  display: flex; align-items: center; gap: 6px;
+  color: var(--primary); font-weight: 500;
+}
+.saved-sig-label .ti { font-size: 15px; }
+
+/* ── Responsywność ───────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .ex-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 700px) {
+  .toolbar { gap: 2px; padding: 6px 8px; }
+  .tool-label { display: none; }
+  .tool-btn { padding: 6px 8px; }
+}
+@media (max-width: 620px) {
+  .ex-grid { grid-template-columns: 1fr; }
+  .mod-head h1 { font-size: 25px; }
+  .modal { max-width: 100%; }
+  /* Na małych ekranach zmniejsz max-height podglądu */
+  .pages-wrap { max-height: min(60vh, 600px); }
+}

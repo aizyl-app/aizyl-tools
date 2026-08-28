@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Polacz dowolne pliki w archiwum ZIP. Dziala lokalnie, pliki nie opuszczaja przegladarki." />
+  <title>Utwórz ZIP | Narzedzia Aizyl</title>
+  <meta property="og:title" content="Utworz ZIP - Aizyl" />
+  <meta property="og:description" content="Polacz pliki w archiwum ZIP lokalnie w przegladarce." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/zip-create/" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./zip-create.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzedzia</a>
+        <h1>Utworz ZIP</h1>
+        <p>Polacz dowolne pliki w archiwum ZIP. Pliki nie opuszczaja Twojej przegladarki.</p>
+        <span class="pill"><span class="dot"></span> Pliki zostaja na tym komputerze</span>
+      </div>
+
+      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Wybierz pliki">
+        <span class="ti ti-file-zip dz-icon" aria-hidden="true"></span>
+        <p class="dz-title">Przeciagnij pliki tutaj</p>
+        <p class="dz-sub">albo kliknij, zeby wybrac · mozesz dodac wiele plikow</p>
+      </div>
+      <input type="file" id="picker" hidden multiple />
+
+      <div class="workspace" id="workspace" hidden>
+
+        <div class="file-list-card">
+          <div class="file-list-header">
+            <span class="field-label">Pliki w archiwum</span>
+            <button class="btn btn-ghost btn-sm" id="btnAddMore">
+              <span class="ti ti-plus" aria-hidden="true"></span> Dodaj wiecej
+            </button>
+          </div>
+          <div class="file-list" id="fileList"></div>
+          <div class="file-list-footer" id="fileListFooter"></div>
+        </div>
+
+        <div class="zip-options">
+          <div class="field-group">
+            <label class="field-label" for="zipName">Nazwa archiwum</label>
+            <input class="name-input" type="text" id="zipName" value="archiwum.zip" spellcheck="false" />
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" id="btnCreate">
+            <span class="ti ti-file-zip" aria-hidden="true"></span>
+            Utworz ZIP
+          </button>
+          <button class="btn btn-ghost btn-sm" id="btnClear">
+            <span class="ti ti-trash" aria-hidden="true"></span> Wyczysc
+          </button>
+        </div>
+
+        <div class="load-progress" id="loadProgress" hidden>
+          <div class="lp-bar"><div class="lp-fill" id="lpFill"></div></div>
+          <span class="lp-label" id="lpLabel">Pakuje pliki...</span>
+        </div>
+
+      </div>
+
+      <div class="explainer">
+        <h2>Do czego przydaje sie archiwum ZIP</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-mail" aria-hidden="true"></span>
+            <h3>Wysylka wielu plikow</h3>
+            <p>Zamiast wysylac wiele zalacznikow, spakuj je w jeden plik ZIP i wyslij jednym mailem.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-device-floppy" aria-hidden="true"></span>
+            <h3>Mniejszy rozmiar</h3>
+            <p>Archiwum ZIP kompresuje pliki tekstowe i dokumenty, zmniejszajac ich laczny rozmiar.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-folder" aria-hidden="true"></span>
+            <h3>Porzadek w plikach</h3>
+            <p>Zbierz powiazane pliki w jedno archiwum i trzymaj je razem jako jeden plik.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Wszystko lokalnie</h3>
+            <p>Pliki nie opuszczaja Twojej przegladarki. Archiwum tworzone jest na Twoim komputerze.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="/shared/layout.js"></script>
+  <script src="./zip-create.js"></script>
+</body>
+</html>

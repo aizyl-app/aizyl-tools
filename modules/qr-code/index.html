@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Wygeneruj kod QR z dowolnego tekstu lub linku. Pobierz jako PNG. Dziala lokalnie w przegladarce." />
+  <title>Kod QR | Narzedzia Aizyl</title>
+  <meta property="og:title" content="Kod QR - Aizyl" />
+  <meta property="og:description" content="Wygeneruj kod QR lokalnie w przegladarce." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/qr-code/" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./qr-code.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzedzia</a>
+        <h1>Kod QR</h1>
+        <p>Wygeneruj kod QR z dowolnego tekstu, linku lub danych. Pobierz jako PNG. Dziala lokalnie.</p>
+        <span class="pill"><span class="dot"></span> Dane zostaja w przegladarce</span>
+      </div>
+
+      <div class="workspace">
+
+        <div class="input-card">
+          <div class="field-group">
+            <label class="field-label" for="inputText">Tekst lub link</label>
+            <textarea id="inputText" class="text-input" placeholder="Wpisz tekst, adres URL, numer telefonu..." spellcheck="false" rows="3"></textarea>
+          </div>
+
+          <div class="options-row">
+            <div class="option-group">
+              <p class="quality-label">Rozmiar</p>
+              <div class="size-grid">
+                <button class="quality-btn" data-size="128">
+                  <span class="qb-title">Maly</span>
+                  <span class="qb-desc">128 px</span>
+                </button>
+                <button class="quality-btn active" data-size="256">
+                  <span class="qb-title">Sredni</span>
+                  <span class="qb-desc">256 px</span>
+                </button>
+                <button class="quality-btn" data-size="512">
+                  <span class="qb-title">Duzy</span>
+                  <span class="qb-desc">512 px</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="action-bar">
+            <button class="btn btn-primary" id="btnGenerate">
+              <span class="ti ti-qrcode" aria-hidden="true"></span>
+              Generuj kod QR
+            </button>
+            <button class="btn btn-ghost btn-sm" id="btnClear">
+              <span class="ti ti-trash" aria-hidden="true"></span> Wyczysc
+            </button>
+          </div>
+        </div>
+
+        <div class="result-card" id="resultCard" hidden>
+          <div class="qr-wrap">
+            <div id="qrCanvas"></div>
+          </div>
+          <div class="action-bar">
+            <button class="btn btn-primary" id="btnDownload">
+              <span class="ti ti-file-download" aria-hidden="true"></span>
+              Pobierz PNG
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="explainer">
+        <h2>Do czego przydaja sie kody QR</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-link" aria-hidden="true"></span>
+            <h3>Linki i strony</h3>
+            <p>Zamien dlugi link w kod QR do wydrukowania na ulotkach, plakatach lub wizytowkach.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-wifi" aria-hidden="true"></span>
+            <h3>Dane kontaktowe</h3>
+            <p>Udostepnij numer telefonu, e-mail lub adres jako kod QR do zeskanowania.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-device-mobile" aria-hidden="true"></span>
+            <h3>Szybkie udostepnianie</h3>
+            <p>Zeskanuj kod telefonem i od razu otworz link bez recznego wpisywania adresu.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Wszystko lokalnie</h3>
+            <p>Kod generowany jest w Twojej przegladarce. Dane nie trafiaja na zaden serwer.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <script src="/shared/layout.js"></script>
+  <script src="./qr-code.js"></script>
+</body>
+</html>

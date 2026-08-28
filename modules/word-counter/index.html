@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Policz slowa, znaki, wiersze i czas czytania. Wklej dowolny tekst i widzisz wyniki od razu." />
+  <title>Licznik slow | Narzedzia Aizyl</title>
+  <meta property="og:title" content="Licznik slow - Aizyl" />
+  <meta property="og:description" content="Policz slowa, znaki i czas czytania. Dziala lokalnie w przegladarce." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/word-counter/" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./word-counter.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzedzia</a>
+        <h1>Licznik slow</h1>
+        <p>Wklej dowolny tekst i od razu widzisz liczbe slow, znakow, wierszy i szacowany czas czytania.</p>
+        <span class="pill"><span class="dot"></span> Tekst zostaje w przegladarce</span>
+      </div>
+
+      <div class="workspace">
+        <textarea id="textInput" class="text-input" placeholder="Wklej lub wpisz tekst tutaj..." spellcheck="false"></textarea>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-value" id="statWords">0</span>
+            <span class="stat-label">Slow</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="statChars">0</span>
+            <span class="stat-label">Znakow</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="statCharsNo">0</span>
+            <span class="stat-label">Znakow bez spacji</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="statLines">0</span>
+            <span class="stat-label">Wierszy</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="statSentences">0</span>
+            <span class="stat-label">Zdan</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="statRead">0 sek.</span>
+            <span class="stat-label">Czas czytania</span>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-ghost btn-sm" id="btnClear">
+            <span class="ti ti-trash" aria-hidden="true"></span> Wyczysc
+          </button>
+          <button class="btn btn-ghost btn-sm" id="btnCopy">
+            <span class="ti ti-copy" aria-hidden="true"></span> Kopiuj tekst
+          </button>
+        </div>
+      </div>
+
+      <div class="explainer">
+        <h2>Do czego przydaje sie licznik slow</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-file-text" aria-hidden="true"></span>
+            <h3>Dokumenty i raporty</h3>
+            <p>Sprawdz czy tekst miesci sie w wymaganym limicie slow przed wysylka.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-brand-linkedin" aria-hidden="true"></span>
+            <h3>Media spolecznosciowe</h3>
+            <p>Kontroluj dlugosc postow i opisow przed publikacja na platformach.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-clock" aria-hidden="true"></span>
+            <h3>Czas czytania</h3>
+            <p>Oszacuj ile czasu zajmie odczytanie artykulu lub prezentacji.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Wszystko lokalnie</h3>
+            <p>Tekst nie opuszcza Twojej przegladarki. Zadnych serwerow, zadnego sledzenia.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <script src="/shared/layout.js"></script>
+  <script src="./word-counter.js"></script>
+</body>
+</html>

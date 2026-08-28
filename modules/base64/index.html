@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Koduj i dekoduj tekst lub pliki w formacie Base64. Dziala lokalnie w przegladarce." />
+  <title>Base64 | Narzedzia Aizyl</title>
+  <meta property="og:title" content="Base64 - Aizyl" />
+  <meta property="og:description" content="Koduj i dekoduj Base64 lokalnie w przegladarce." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/base64/" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./base64.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzedzia</a>
+        <h1>Base64</h1>
+        <p>Koduj i dekoduj tekst lub pliki w formacie Base64. Wszystko odbywa sie lokalnie w przegladarce.</p>
+        <span class="pill"><span class="dot"></span> Dane zostaja w przegladarce</span>
+      </div>
+
+      <div class="workspace">
+
+        <div class="mode-bar">
+          <button class="mode-tab active" id="tabText">
+            <span class="ti ti-text-size" aria-hidden="true"></span> Tekst
+          </button>
+          <button class="mode-tab" id="tabFile">
+            <span class="ti ti-file" aria-hidden="true"></span> Plik
+          </button>
+        </div>
+
+        <div id="panelText">
+          <div class="two-col">
+            <div class="col">
+              <div class="col-label">Tekst wejsciowy</div>
+              <textarea id="inputText" class="text-input" placeholder="Wklej tekst do zakodowania lub zdekodowania..." spellcheck="false"></textarea>
+              <div class="col-actions">
+                <button class="btn btn-primary btn-sm" id="btnEncode">
+                  <span class="ti ti-arrow-right" aria-hidden="true"></span> Koduj Base64
+                </button>
+                <button class="btn btn-ghost btn-sm" id="btnDecode">
+                  <span class="ti ti-arrow-left" aria-hidden="true"></span> Dekoduj Base64
+                </button>
+                <button class="btn btn-ghost btn-sm" id="btnClearText">
+                  <span class="ti ti-trash" aria-hidden="true"></span>
+                </button>
+              </div>
+            </div>
+            <div class="col">
+              <div class="col-label">Wynik</div>
+              <textarea id="outputText" class="text-input text-output" readonly placeholder="Wynik pojawi sie tutaj..." spellcheck="false"></textarea>
+              <div class="col-actions">
+                <button class="btn btn-ghost btn-sm" id="btnCopyText">
+                  <span class="ti ti-copy" aria-hidden="true"></span> Kopiuj
+                </button>
+                <button class="btn btn-ghost btn-sm" id="btnSwap">
+                  <span class="ti ti-switch-horizontal" aria-hidden="true"></span> Zamien
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="error-msg" id="errorText" hidden></div>
+        </div>
+
+        <div id="panelFile" hidden>
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Wybierz plik">
+            <span class="ti ti-file-upload dz-icon" aria-hidden="true"></span>
+            <p class="dz-title">Przeciagnij plik tutaj</p>
+            <p class="dz-sub">albo kliknij, zeby wybrac dowolny plik</p>
+          </div>
+          <input type="file" id="picker" hidden />
+          <div id="fileResult" hidden>
+            <div class="file-info" id="fileInfo"></div>
+            <textarea id="outputFile" class="text-input text-output" readonly spellcheck="false"></textarea>
+            <div class="col-actions">
+              <button class="btn btn-primary btn-sm" id="btnCopyFile">
+                <span class="ti ti-copy" aria-hidden="true"></span> Kopiuj Base64
+              </button>
+              <button class="btn btn-ghost btn-sm" id="btnDownloadFile">
+                <span class="ti ti-file-download" aria-hidden="true"></span> Pobierz .txt
+              </button>
+              <button class="btn btn-ghost btn-sm" id="btnNewFile">
+                <span class="ti ti-refresh" aria-hidden="true"></span> Inny plik
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="explainer">
+        <h2>Do czego sluzy Base64</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-mail" aria-hidden="true"></span>
+            <h3>Przesylanie danych</h3>
+            <p>Base64 pozwala bezpiecznie przeslac binarne dane przez systemy obslugujace tylko tekst.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-code" aria-hidden="true"></span>
+            <h3>Programowanie</h3>
+            <p>Wbuduj obrazy lub pliki bezposrednio w kod HTML, CSS lub JSON jako ciag znakow.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-key" aria-hidden="true"></span>
+            <h3>Tokeny i klucze</h3>
+            <p>Wiele tokenow API i certyfikatow jest zakodowanych w Base64. Latwo je zdekoduj i przejrzyj.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Wszystko lokalnie</h3>
+            <p>Dane nie opuszczaja Twojej przegladarki. Zadnych serwerow, zadnego sledzenia.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <script src="/shared/layout.js"></script>
+  <script src="./base64.js"></script>
+</body>
+</html>

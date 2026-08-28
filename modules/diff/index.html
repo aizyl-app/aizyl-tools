@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Porównaj dwie wersje dokumentu i zobacz każdą zmianę. Pliki nie opuszczają Twojej przeglądarki." />
+  <title>Porównanie dokumentów | Narzędzia Aizyl</title>
+
+  <meta property="og:title" content="Porównanie dokumentów — Aizyl" />
+  <meta property="og:description" content="Zobacz, co zmieniło się między wersjami umowy. Bez wysyłania pliku." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/diff/" />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./diff.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzędzia</a>
+        <h1>Porównanie dokumentów</h1>
+        <p>Wskaż dwie wersje dokumentu i zobacz, co dokładnie się zmieniło. Słowo po słowie.</p>
+        <span class="pill"><span class="dot"></span> Pliki zostają na tym komputerze</span>
+      </div>
+
+      <div class="inputs">
+        <section class="slot">
+          <div class="slot-head">
+            <span class="slot-label">Wersja wcześniejsza</span>
+            <span class="slot-file" id="nameA"></span>
+          </div>
+          <div class="drop" id="dropA">
+            <textarea id="textA" spellcheck="false" aria-label="Wersja wcześniejsza"
+              placeholder="Przeciągnij plik tutaj albo wklej treść."></textarea>
+          </div>
+          <div class="drop-hint">
+            <span>TXT · MD · DOCX · PDF</span>
+            <button class="linkbtn" data-open="A">Wybierz plik</button>
+          </div>
+          <p class="err" id="errA" hidden></p>
+        </section>
+
+        <section class="slot">
+          <div class="slot-head">
+            <span class="slot-label">Wersja nowsza</span>
+            <span class="slot-file" id="nameB"></span>
+          </div>
+          <div class="drop" id="dropB">
+            <textarea id="textB" spellcheck="false" aria-label="Wersja nowsza"
+              placeholder="Przeciągnij plik tutaj albo wklej treść."></textarea>
+          </div>
+          <div class="drop-hint">
+            <span>TXT · MD · DOCX · PDF</span>
+            <button class="linkbtn" data-open="B">Wybierz plik</button>
+          </div>
+          <p class="err" id="errB" hidden></p>
+        </section>
+      </div>
+
+      <input type="file" id="fileA" hidden accept=".txt,.md,.markdown,.csv,.json,.html,.docx,.pdf" />
+      <input type="file" id="fileB" hidden accept=".txt,.md,.markdown,.csv,.json,.html,.docx,.pdf" />
+
+      <div class="bar">
+        <button class="btn btn-primary" id="run" disabled>Porównaj</button>
+        <div class="opts">
+          <label><input type="checkbox" id="optCase" /> pomiń wielkość liter</label>
+          <label><input type="checkbox" id="optPunct" /> pomiń interpunkcję</label>
+        </div>
+        <div class="seg" role="group" aria-label="Widok">
+          <button id="viewSide" aria-pressed="true">Obok siebie</button>
+          <button id="viewMerged" aria-pressed="false">Scalony</button>
+        </div>
+      </div>
+
+      <div class="result" id="result">
+        <div class="stats">
+          <div class="stat"><div class="stat-n" id="sMod">0</div><div class="stat-l">zmienionych akapitów</div></div>
+          <div class="stat"><div class="stat-n n-add" id="sAdd">0</div><div class="stat-l">dodanych słów</div></div>
+          <div class="stat"><div class="stat-n n-del" id="sDel">0</div><div class="stat-l">usuniętych słów</div></div>
+          <div class="stat"><div class="stat-n" id="sSame">0</div><div class="stat-l">akapitów bez zmian</div></div>
+        </div>
+
+        <div class="panes" id="panes">
+          <div class="col-head" id="headOld">Wersja wcześniejsza</div>
+          <div class="col-head col-gut"></div>
+          <div class="col-head" id="headNew">Wersja nowsza</div>
+        </div>
+        <div class="pane-body">
+          <div class="scroller" id="scroller"><div class="grid" id="grid"></div></div>
+        </div>
+
+        <div class="bar">
+          <button class="btn btn-ghost" id="dl">Pobierz raport HTML</button>
+          <button class="btn btn-ghost" id="cp">Kopiuj podsumowanie</button>
+          <span class="msg" id="cpMsg"></span>
+        </div>
+      </div>
+
+      <div class="mapbar" id="mapbar" aria-label="Mapa zmian"></div>
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="/shared/layout.js"></script>
+  <script src="./diff.js"></script>
+</body>
+</html>
+

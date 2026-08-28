@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Przytnij zdjęcie do dowolnego obszaru lub wybranego formatu. Lokalnie w przeglądarce, bez wysyłania pliku." />
+  <title>Przycinanie obrazu | Narzędzia Aizyl</title>
+
+  <meta property="og:title" content="Przycinanie obrazu – Aizyl" />
+  <meta property="og:description" content="Przytnij zdjęcie myszką. Lokalnie, bez wysyłania pliku." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/crop-image/" />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./crop-image.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzędzia</a>
+        <h1>Przycinanie obrazu</h1>
+        <p>Zaznacz myszką obszar do zachowania. Wybierz proporcje lub zaznacz swobodnie. Plik nie opuszcza przeglądarki.</p>
+        <span class="pill"><span class="dot"></span> Plik zostaje na tym komputerze</span>
+      </div>
+
+      <div class="dropzone" id="dropzone" tabindex="0" role="button"
+           aria-label="Wybierz obraz do przycinania">
+        <span class="ti ti-crop dz-icon" aria-hidden="true"></span>
+        <p class="dz-title">Przeciągnij zdjęcie tutaj</p>
+        <p class="dz-sub">albo kliknij, żeby wybrać · JPG, PNG, WebP</p>
+      </div>
+      <input type="file" id="picker" hidden accept="image/*" />
+
+      <div class="workspace" id="workspace" hidden>
+
+        <div class="crop-toolbar">
+          <div class="crop-ratio">
+            <span class="opt-label">Proporcje:</span>
+            <div class="format-btns" role="group">
+              <button class="fmt-btn active" data-ratio="free">Swobodne</button>
+              <button class="fmt-btn" data-ratio="1:1">1 : 1</button>
+              <button class="fmt-btn" data-ratio="4:3">4 : 3</button>
+              <button class="fmt-btn" data-ratio="16:9">16 : 9</button>
+              <button class="fmt-btn" data-ratio="3:4">3 : 4</button>
+              <button class="fmt-btn" data-ratio="9:16">9 : 16</button>
+            </div>
+          </div>
+          <div class="crop-actions">
+            <button class="btn btn-ghost btn-sm" id="btnReset">
+              <span class="ti ti-eraser" aria-hidden="true"></span> Wyczyść
+            </button>
+            <button class="btn btn-ghost btn-sm" id="btnChangeFile">
+              <span class="ti ti-refresh" aria-hidden="true"></span> Zmień plik
+            </button>
+          </div>
+        </div>
+
+        <div class="crop-viewer">
+          <div class="canvas-wrap" id="canvasWrap">
+            <canvas id="imgCanvas"></canvas>
+            <canvas id="overlayCanvas"></canvas>
+          </div>
+          <p class="rd-hint">
+            <span class="ti ti-crop" aria-hidden="true"></span>
+            Zaznacz myszką obszar do zachowania
+          </p>
+        </div>
+
+        <div class="crop-meta" id="cropMeta"></div>
+
+        <div class="crop-fmt">
+          <span class="opt-label">Format:</span>
+          <div class="format-btns" role="group">
+            <button class="fmt-btn active" data-fmt="image/jpeg" data-ext="jpg">JPG</button>
+            <button class="fmt-btn" data-fmt="image/png" data-ext="png">PNG</button>
+            <button class="fmt-btn" data-fmt="image/webp" data-ext="webp">WebP</button>
+          </div>
+        </div>
+
+        <div class="rd-save-bar">
+          <button class="btn btn-primary" id="btnSave" disabled>
+            <span class="ti ti-file-download" aria-hidden="true"></span>
+            Pobierz przycięty obraz
+          </button>
+          <span class="rd-save-info" id="saveInfo"></span>
+        </div>
+
+      </div>
+
+      <div class="explainer">
+        <h2>Kiedy przycinanie się przydaje</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-user-circle" aria-hidden="true"></span>
+            <h3>Zdjęcie profilowe</h3>
+            <p>Większość platform wymaga zdjęcia kwadratowego 1:1. Wytnij twarz ze zdjęcia grupowego.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-brand-youtube" aria-hidden="true"></span>
+            <h3>Miniatura 16:9</h3>
+            <p>YouTube, prezentacje, banery. Wytnij poziomy kadr z proporcjami 16:9 jednym kliknięciem.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-focus" aria-hidden="true"></span>
+            <h3>Wytnij fragment</h3>
+            <p>Chcesz zachować tylko część zdjęcia? Zaznacz dokładnie to co potrzebujesz.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Plik nie wychodzi</h3>
+            <p>Całe przetwarzanie odbywa się w Twojej przeglądarce. Żadne zdjęcie nie trafia na serwer.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Przycinanie jest w pełni lokalne.</strong> Canvas API wycina zaznaczony obszar
+        bezpośrednio w przeglądarce. Żaden plik nie opuszcza Twojego komputera.
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <script src="/shared/layout.js"></script>
+  <script src="./crop-image.js"></script>
+</body>
+</html>

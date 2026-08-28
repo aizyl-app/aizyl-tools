@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Zamien fragment wideo w animowany GIF. Ustaw rozmiar i liczbe klatek. Dziala lokalnie, plik nie opuszcza przegladarki." />
+  <title>Wideo na GIF | Narzedzia Aizyl</title>
+  <meta property="og:title" content="Wideo na GIF - Aizyl" />
+  <meta property="og:description" content="Zamien fragment wideo w animowany GIF. Plik nie opuszcza Twojej przegladarki." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/video-to-gif/" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./video-to-gif.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzedzia</a>
+        <h1>Wideo na GIF</h1>
+        <p>Zamien fragment wideo w animowany GIF. Ustaw zakres czasu, szerokosc i liczbe klatek. Plik nie opuszcza Twojej przegladarki.</p>
+        <span class="pill"><span class="dot"></span> Pliki zostaja na tym komputerze</span>
+      </div>
+
+      <div class="dropzone" id="dropzone" tabindex="0" role="button"
+           aria-label="Wybierz plik wideo">
+        <span class="ti ti-gif dz-icon" aria-hidden="true"></span>
+        <p class="dz-title">Przeciagnij plik wideo tutaj</p>
+        <p class="dz-sub">albo kliknij, zeby wybrac · MP4, MKV, AVI, MOV, WebM</p>
+      </div>
+      <input type="file" id="picker" hidden accept="video/*,.mkv,.avi,.mov,.mp4,.webm,.m4v,.flv" />
+
+      <div class="workspace" id="workspace" hidden>
+
+        <div class="file-info" id="fileInfo"></div>
+
+        <video id="videoPreview" class="video-preview" controls preload="metadata"></video>
+
+        <div class="options-section">
+          <p class="quality-label">Zakres wideo</p>
+          <div class="trim-grid">
+            <div class="trim-field">
+              <label class="trim-label" for="inputStart">Od (sekundy)</label>
+              <input class="trim-input" type="number" id="inputStart" min="0" step="0.1" value="0" placeholder="0" />
+            </div>
+            <div class="trim-arrow">
+              <span class="ti ti-arrow-right" aria-hidden="true"></span>
+            </div>
+            <div class="trim-field">
+              <label class="trim-label" for="inputEnd">Do (sekundy)</label>
+              <input class="trim-input" type="number" id="inputEnd" min="0" step="0.1" placeholder="koniec" />
+            </div>
+            <div class="trim-duration" id="trimDuration"></div>
+          </div>
+        </div>
+
+        <div class="options-row">
+          <div class="option-group">
+            <p class="quality-label">Szerokosc (px)</p>
+            <div class="quality-grid" role="group" aria-label="Wybierz szerokosc">
+              <button class="quality-btn" data-width="320">
+                <span class="ti ti-device-mobile qb-icon" aria-hidden="true"></span>
+                <span class="qb-title">320 px</span>
+                <span class="qb-desc">Maly plik, dobry do czatow.</span>
+              </button>
+              <button class="quality-btn active" data-width="480">
+                <span class="ti ti-adjustments-horizontal qb-icon" aria-hidden="true"></span>
+                <span class="qb-title">480 px</span>
+                <span class="qb-desc">Balans rozmiaru i jakosci.</span>
+              </button>
+              <button class="quality-btn" data-width="640">
+                <span class="ti ti-maximize qb-icon" aria-hidden="true"></span>
+                <span class="qb-title">640 px</span>
+                <span class="qb-desc">Wysoka jakosc, wiekszy plik.</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="option-group">
+            <p class="quality-label">Klatki na sekunde</p>
+            <div class="quality-grid" role="group" aria-label="Wybierz FPS">
+              <button class="quality-btn" data-fps="10">
+                <span class="ti ti-device-floppy qb-icon" aria-hidden="true"></span>
+                <span class="qb-title">10 fps</span>
+                <span class="qb-desc">Najmniejszy plik.</span>
+              </button>
+              <button class="quality-btn active" data-fps="15">
+                <span class="ti ti-adjustments-horizontal qb-icon" aria-hidden="true"></span>
+                <span class="qb-title">15 fps</span>
+                <span class="qb-desc">Plynny ruch, polecany.</span>
+              </button>
+              <button class="quality-btn" data-fps="24">
+                <span class="ti ti-player-play qb-icon" aria-hidden="true"></span>
+                <span class="qb-title">24 fps</span>
+                <span class="qb-desc">Najbardziej plynny.</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" id="btnConvert">
+            <span class="ti ti-gif" aria-hidden="true"></span>
+            Generuj GIF
+          </button>
+          <button class="btn btn-ghost btn-sm" id="btnNewFile">
+            <span class="ti ti-folder-open" aria-hidden="true"></span> Inny plik
+          </button>
+        </div>
+
+        <div class="load-progress" id="loadProgress" hidden>
+          <div class="lp-bar"><div class="lp-fill" id="lpFill"></div></div>
+          <span class="lp-label" id="lpLabel">Przygotowuje...</span>
+        </div>
+
+        <div class="result-card" id="resultCard" hidden>
+          <div class="result-preview">
+            <img id="gifPreview" class="gif-preview" src="" alt="Podglad GIF" hidden />
+          </div>
+          <div class="result-sizes">
+            <div class="result-size">
+              <span class="rs-label">Rozmiar pliku</span>
+              <span class="rs-value rs-value-after" id="sizeAfter"></span>
+            </div>
+          </div>
+          <button class="btn btn-primary" id="btnDownload">
+            <span class="ti ti-file-download" aria-hidden="true"></span>
+            Pobierz GIF
+          </button>
+        </div>
+
+      </div>
+
+      <div class="explainer">
+        <h2>Do czego przydaje sie GIF z wideo</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-message-circle" aria-hidden="true"></span>
+            <h3>Reakcje i czaty</h3>
+            <p>Wytnij zabawny moment z wideo i wyslij jako GIF w wiadomosci lub na czacie.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-presentation" aria-hidden="true"></span>
+            <h3>Prezentacje i dokumenty</h3>
+            <p>Wstaw animowany fragment wideo do dokumentu lub prezentacji bez odtwarzacza.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-brand-twitter" aria-hidden="true"></span>
+            <h3>Media spolecznosciowe</h3>
+            <p>GIF automatycznie zapetla sie na wielu platformach, bez koniecznosci klikania play.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Wszystko lokalnie</h3>
+            <p>Konwersja odbywa sie w Twojej przegladarce. Wideo nie trafia na zaden serwer.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <script src="/shared/ffmpeg/ffmpeg.js"></script>
+  <script src="/shared/layout.js"></script>
+  <script src="./video-to-gif.js"></script>
+</body>
+</html>

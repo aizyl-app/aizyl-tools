@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Scal kilka plików PDF w jeden dokument. Zmień kolejność stron, usuń zbędne, obróć skany. Wszystko lokalnie, bez wysyłania plików na serwer." />
+  <title>Scalanie PDF | Narzędzia Aizyl</title>
+
+  <meta property="og:title" content="Scalanie PDF — Aizyl" />
+  <meta property="og:description" content="Połącz umowy, faktury i skany w jeden plik. Pliki nie opuszczają Twojej przeglądarki." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/merge/" />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./merge.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzędzia</a>
+        <h1>Scalanie PDF</h1>
+        <p>Połącz umowy, faktury i skany w jeden plik. Zmień kolejność stron, usuń zbędne, obróć skany. Bez wysyłania dokumentów na cudzy serwer.</p>
+        <span class="pill"><span class="dot"></span> Pliki zostają na tym komputerze</span>
+      </div>
+
+      <!-- Strefa upuszczania plików -->
+      <div class="dropzone" id="dropzone" tabindex="0" role="button"
+           aria-label="Wybierz pliki PDF do scalenia">
+        <span class="ti ti-file-plus dz-icon" aria-hidden="true"></span>
+        <p class="dz-title">Przeciągnij pliki PDF tutaj</p>
+        <p class="dz-sub">albo kliknij, żeby wybrać · możesz wrzucić kilka naraz</p>
+      </div>
+      <input type="file" id="picker" hidden multiple accept="application/pdf,.pdf" />
+
+      <!-- Pasek postępu wczytywania -->
+      <div class="load-progress" id="loadProgress" hidden>
+        <div class="lp-bar"><div class="lp-fill" id="lpFill"></div></div>
+        <span class="lp-label" id="lpLabel">Wczytuję strony…</span>
+      </div>
+
+      <!-- Obszar roboczy: siatka miniatur -->
+      <div class="workspace" id="workspace" hidden>
+        <div class="ws-toolbar">
+          <span class="ws-count" id="wsCount"></span>
+          <div class="ws-actions">
+            <button class="btn btn-ghost btn-sm" id="btnAddMore">
+              <span class="ti ti-plus" aria-hidden="true"></span> Dodaj pliki
+            </button>
+            <button class="btn btn-ghost btn-sm" id="btnClear">
+              <span class="ti ti-trash" aria-hidden="true"></span> Wyczyść
+            </button>
+          </div>
+        </div>
+
+        <div class="page-grid" id="pageGrid" role="list"
+             aria-label="Strony do scalenia. Przeciągnij, żeby zmienić kolejność"></div>
+
+        <div class="merge-bar">
+          <button class="btn btn-primary" id="btnMerge">
+            <span class="ti ti-file-download" aria-hidden="true"></span>
+            Pobierz scalony PDF
+          </button>
+          <span class="merge-info" id="mergeInfo"></span>
+        </div>
+      </div>
+
+      <!-- Sekcja wyjaśniająca -->
+      <div class="explainer">
+        <h2>Dlaczego lokalnie, a nie w chmurze</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Dokumenty nie wychodzą</h3>
+            <p>Scalanie odbywa się w Twojej przeglądarce. Żaden bajt umowy ani faktury nie trafia na zewnętrzny serwer.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-arrows-sort" aria-hidden="true"></span>
+            <h3>Pełna kontrola kolejności</h3>
+            <p>Przeciągnij strony w dowolne miejsce. Możesz mieszać strony z różnych plików i usuwać te, których nie potrzebujesz.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-rotate-clockwise" aria-hidden="true"></span>
+            <h3>Obrót skanów</h3>
+            <p>Skany często wychodzą przekrzywione. Obróć każdą stronę o 90°. Obrót trafia do pliku wynikowego, nie tylko do podglądu.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-file-check" aria-hidden="true"></span>
+            <h3>Jeden gotowy plik</h3>
+            <p>Wynik to pełnoprawny PDF ze wszystkimi stronami w wybranej kolejności, gotowy do podpisu lub wysyłki.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Scalanie jest w pełni lokalne.</strong> Biblioteki pdf-lib i PDF.js działają bezpośrednio
+        w przeglądarce. Żadne dane nie opuszczają Twojego komputera.
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <!-- Szablon karty strony (klonowany przez JS) -->
+  <template id="pageTpl">
+    <div class="page-card" role="listitem" draggable="true">
+      <div class="pc-thumb-wrap">
+        <canvas class="pc-canvas"></canvas>
+        <div class="pc-spinner" aria-hidden="true"></div>
+        <div class="pc-overlay">
+          <button class="pc-btn pc-rotate" title="Obróć o 90°" aria-label="Obróć stronę o 90°">
+            <span class="ti ti-rotate-clockwise" aria-hidden="true"></span>
+          </button>
+          <button class="pc-btn pc-delete" title="Usuń stronę" aria-label="Usuń stronę">
+            <span class="ti ti-trash" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+      <div class="pc-meta">
+        <span class="pc-num"></span>
+        <span class="pc-src"></span>
+      </div>
+      <div class="pc-kbd" role="group" aria-label="Zmień pozycję strony">
+        <button class="pc-move pc-move-left" aria-label="Przesuń w lewo">
+          <span class="ti ti-chevron-left" aria-hidden="true"></span>
+        </button>
+        <label class="pc-pos-label" aria-label="Pozycja strony">
+          <input type="number" class="pc-pos-input" min="1" aria-label="Numer pozycji" />
+        </label>
+        <button class="pc-move pc-move-right" aria-label="Przesuń w prawo">
+          <span class="ti ti-chevron-right" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </template>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="/shared/layout.js"></script>
+  <script src="./merge.js"></script>
+</body>
+</html>

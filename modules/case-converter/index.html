@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Zamien tekst na WIELKIE, male, Tytulowe, camelCase lub snake_case. Dziala lokalnie w przegladarce." />
+  <title>Konwerter wielkosci liter | Narzedzia Aizyl</title>
+  <meta property="og:title" content="Konwerter wielkosci liter - Aizyl" />
+  <meta property="og:description" content="Zamien tekst na dowolny format wielkosci liter. Dziala lokalnie." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/case-converter/" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./case-converter.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzedzia</a>
+        <h1>Konwerter wielkosci liter</h1>
+        <p>Wklej tekst i wybierz format. Wynik pojawia sie od razu. Plik nie opuszcza przegladarki.</p>
+        <span class="pill"><span class="dot"></span> Tekst zostaje w przegladarce</span>
+      </div>
+
+      <div class="workspace">
+        <textarea id="textInput" class="text-input" placeholder="Wklej lub wpisz tekst tutaj..." spellcheck="false"></textarea>
+
+        <div class="cases-grid">
+          <button class="case-btn active" data-case="upper">
+            <span class="case-preview">ABC</span>
+            <span class="case-label">WIELKIE LITERY</span>
+          </button>
+          <button class="case-btn" data-case="lower">
+            <span class="case-preview">abc</span>
+            <span class="case-label">male litery</span>
+          </button>
+          <button class="case-btn" data-case="title">
+            <span class="case-preview">Abc Def</span>
+            <span class="case-label">Tytulowe</span>
+          </button>
+          <button class="case-btn" data-case="sentence">
+            <span class="case-preview">Abc def</span>
+            <span class="case-label">Zdaniowe</span>
+          </button>
+          <button class="case-btn" data-case="camel">
+            <span class="case-preview">abcDef</span>
+            <span class="case-label">camelCase</span>
+          </button>
+          <button class="case-btn" data-case="pascal">
+            <span class="case-preview">AbcDef</span>
+            <span class="case-label">PascalCase</span>
+          </button>
+          <button class="case-btn" data-case="snake">
+            <span class="case-preview">abc_def</span>
+            <span class="case-label">snake_case</span>
+          </button>
+          <button class="case-btn" data-case="kebab">
+            <span class="case-preview">abc-def</span>
+            <span class="case-label">kebab-case</span>
+          </button>
+        </div>
+
+        <div class="result-card" id="resultCard">
+          <div class="result-label">Wynik</div>
+          <div class="result-text" id="resultText"></div>
+          <div class="action-bar">
+            <button class="btn btn-primary" id="btnCopy">
+              <span class="ti ti-copy" aria-hidden="true"></span>
+              Kopiuj wynik
+            </button>
+            <button class="btn btn-ghost btn-sm" id="btnClear">
+              <span class="ti ti-trash" aria-hidden="true"></span> Wyczysc
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="explainer">
+        <h2>Kiedy przydaje sie konwersja liter</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-code" aria-hidden="true"></span>
+            <h3>Programowanie</h3>
+            <p>Szybko zamien nazwy zmiennych i funkcji miedzy camelCase, snake_case i innymi formatami.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-file-text" aria-hidden="true"></span>
+            <h3>Dokumenty</h3>
+            <p>Popraw wielkosc liter w wklejonym tekscie bez recznego przepisywania.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-heading" aria-hidden="true"></span>
+            <h3>Tytuly i naglowki</h3>
+            <p>Zamien tekst na format tytulowy przed wklejeniem do dokumentu lub prezentacji.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Wszystko lokalnie</h3>
+            <p>Tekst nie opuszcza Twojej przegladarki. Zadnych serwerow, zadnego sledzenia.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <script src="/shared/layout.js"></script>
+  <script src="./case-converter.js"></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Porownaj dwa bloki tekstu i zobacz roznice slowo po slowie. Dziala lokalnie w przegladarce." />
+  <title>Porownanie tekstu | Narzedzia Aizyl</title>
+  <meta property="og:title" content="Porownanie tekstu - Aizyl" />
+  <meta property="og:description" content="Porownaj dwa teksty i zobacz roznice. Dziala lokalnie." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/text-diff/" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./text-diff.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzedzia</a>
+        <h1>Porownanie tekstu</h1>
+        <p>Wklej dwa teksty i zobacz co sie zmienilo. Roznice zaznaczone sa slowo po slowie.</p>
+        <span class="pill"><span class="dot"></span> Tekst zostaje w przegladarce</span>
+      </div>
+
+      <div class="workspace">
+        <div class="two-col">
+          <div class="col">
+            <div class="col-label">Tekst A (oryginal)</div>
+            <textarea id="inputA" class="text-input" placeholder="Wklej oryginalny tekst..." spellcheck="false"></textarea>
+          </div>
+          <div class="col">
+            <div class="col-label">Tekst B (zmieniony)</div>
+            <textarea id="inputB" class="text-input" placeholder="Wklej zmieniony tekst..." spellcheck="false"></textarea>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" id="btnCompare">
+            <span class="ti ti-git-compare" aria-hidden="true"></span>
+            Porownaj
+          </button>
+          <button class="btn btn-ghost btn-sm" id="btnClear">
+            <span class="ti ti-trash" aria-hidden="true"></span> Wyczysc
+          </button>
+        </div>
+
+        <div id="resultSection" hidden>
+          <div class="diff-legend">
+            <span class="legend-item"><span class="legend-dot dot-add"></span> Dodane</span>
+            <span class="legend-item"><span class="legend-dot dot-del"></span> Usuniete</span>
+            <span class="legend-item"><span class="legend-dot dot-eq"></span> Bez zmian</span>
+          </div>
+          <div class="diff-stats" id="diffStats"></div>
+          <div class="diff-output" id="diffOutput"></div>
+        </div>
+      </div>
+
+      <div class="explainer">
+        <h2>Kiedy porownanie tekstu sie przydaje</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-file-description" aria-hidden="true"></span>
+            <h3>Wersje dokumentow</h3>
+            <p>Sprawdz co zmienilo sie miedzy dwiema wersjami umowy, regulaminu lub raportu.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-code" aria-hidden="true"></span>
+            <h3>Fragmenty kodu</h3>
+            <p>Porownaj dwa fragmenty kodu i szybko znajdz roznice bez narzedzi deweloperskich.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-pencil" aria-hidden="true"></span>
+            <h3>Korekta tekstow</h3>
+            <p>Zobacz jakie zmiany zostaly wprowadzone podczas korekty lub redakcji tekstu.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Wszystko lokalnie</h3>
+            <p>Tekst nie opuszcza Twojej przegladarki. Zadnych serwerow, zadnego sledzenia.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <script src="/shared/layout.js"></script>
+  <script src="./text-diff.js"></script>
+</body>
+</html>

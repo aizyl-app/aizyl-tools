@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Dodaj hasło do pliku PDF lub usuń istniejące zabezpieczenie. Wszystko działa lokalnie w przeglądarce." />
+  <title>Hasło PDF | Narzędzia Aizyl</title>
+
+  <meta property="og:title" content="Hasło PDF — Aizyl" />
+  <meta property="og:description" content="Dodaj hasło do PDF lub odblokuj chroniony plik. Dokument nie opuszcza Twojej przeglądarki." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/password/" />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./password.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzędzia</a>
+        <h1>Hasło PDF</h1>
+        <p>Dodaj hasło do dokumentu albo usuń istniejące zabezpieczenie. Plik nie opuszcza Twojej przeglądarki.</p>
+        <span class="pill"><span class="dot"></span> Pliki zostają na tym komputerze</span>
+      </div>
+
+      <div class="dropzone" id="dropzone" tabindex="0" role="button"
+           aria-label="Wybierz plik PDF">
+        <span class="ti ti-lock dz-icon" aria-hidden="true"></span>
+        <p class="dz-title">Przeciągnij plik PDF tutaj</p>
+        <p class="dz-sub">albo kliknij, żeby wybrać · jeden plik PDF</p>
+      </div>
+      <input type="file" id="picker" hidden accept="application/pdf,.pdf" />
+
+      <div class="workspace" id="workspace" hidden>
+
+        <div class="file-info" id="fileInfo"></div>
+
+        <div class="mode-tabs" role="tablist">
+          <button class="mode-tab active" id="tabAdd" role="tab"
+                  aria-selected="true" aria-controls="panelAdd">
+            <span class="ti ti-lock-plus" aria-hidden="true"></span> Dodaj hasło
+          </button>
+          <button class="mode-tab" id="tabRemove" role="tab"
+                  aria-selected="false" aria-controls="panelRemove">
+            <span class="ti ti-lock-open" aria-hidden="true"></span> Usuń hasło
+          </button>
+        </div>
+
+        <div class="form-panel" id="panelAdd" role="tabpanel">
+          <div class="field-group">
+            <label class="field-label" for="inputPass">Hasło</label>
+            <input type="password" class="field-input" id="inputPass"
+                   placeholder="Wpisz hasło" autocomplete="new-password" />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="inputPassConfirm">Powtórz hasło</label>
+            <input type="password" class="field-input" id="inputPassConfirm"
+                   placeholder="Powtórz hasło" autocomplete="new-password" />
+          </div>
+          <p class="field-hint">Dokument będzie wymagał tego hasła przy każdym otwarciu.</p>
+        </div>
+
+        <div class="form-panel" id="panelRemove" hidden role="tabpanel">
+          <div class="field-group">
+            <label class="field-label" for="inputCurrentPass">Aktualne hasło dokumentu</label>
+            <input type="password" class="field-input" id="inputCurrentPass"
+                   placeholder="Wpisz hasło którym chroniony jest plik" autocomplete="current-password" />
+          </div>
+          <p class="field-hint">Jeśli plik nie jest chroniony hasłem, pozostaw to pole puste.</p>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" id="btnAction">
+            <span class="ti ti-file-download" aria-hidden="true"></span>
+            <span id="btnLabel">Pobierz z hasłem</span>
+          </button>
+          <button class="btn btn-ghost btn-sm" id="btnNewFile">
+            <span class="ti ti-folder-open" aria-hidden="true"></span> Inny plik
+          </button>
+          <span class="action-status" id="actionStatus"></span>
+        </div>
+
+      </div>
+
+      <div class="explainer">
+        <h2>Do czego służy ta funkcja</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Chroń wrażliwe dokumenty</h3>
+            <p>Ustaw hasło przed wysłaniem umowy, faktury lub dokumentu z danymi osobowymi. Bez hasła odbiorca nie otworzy pliku.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-lock-open" aria-hidden="true"></span>
+            <h3>Usuń zapomniane hasło</h3>
+            <p>Masz dostęp do pliku, ale chcesz usunąć zabezpieczenie? Wpisz aktualne hasło i pobierz odblokowaną wersję.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-shield" aria-hidden="true"></span>
+            <h3>Wszystko lokalnie</h3>
+            <p>Szyfrowanie i odszyfrowanie odbywa się w Twojej przeglądarce. Plik ani hasło nie opuszczają Twojego komputera.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-file-check" aria-hidden="true"></span>
+            <h3>Gotowy plik PDF</h3>
+            <p>Wynik to standardowy plik PDF zgodny z każdym czytnikiem. Hasło działa w Acrobat, przeglądarce, na telefonie.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@neslinesli93/qpdf-wasm@0.3.0/dist/qpdf.js"></script>
+  <script src="/shared/layout.js"></script>
+  <script src="./password.js"></script>
+</body>
+</html>

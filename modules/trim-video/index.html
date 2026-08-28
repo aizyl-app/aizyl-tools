@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Wytnij fragment wideo podajac czas poczatku i konca. Dziala lokalnie, plik nie opuszcza przegladarki." />
+  <title>Przycinanie wideo | Narzedzia Aizyl</title>
+  <meta property="og:title" content="Przycinanie wideo - Aizyl" />
+  <meta property="og:description" content="Wytnij fragment wideo. Plik nie opuszcza Twojej przegladarki." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/trim-video/" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./trim-video.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzedzia</a>
+        <h1>Przycinanie wideo</h1>
+        <p>Wytnij fragment wideo podajac czas poczatku i konca. Plik nie opuszcza Twojej przegladarki.</p>
+        <span class="pill"><span class="dot"></span> Pliki zostaja na tym komputerze</span>
+      </div>
+
+      <div class="dropzone" id="dropzone" tabindex="0" role="button"
+           aria-label="Wybierz plik wideo">
+        <span class="ti ti-movie dz-icon" aria-hidden="true"></span>
+        <p class="dz-title">Przeciagnij plik wideo tutaj</p>
+        <p class="dz-sub">albo kliknij, zeby wybrac · MP4, MKV, AVI, MOV, WebM</p>
+      </div>
+      <input type="file" id="picker" hidden accept="video/*,.mkv,.avi,.mov,.mp4,.webm,.m4v,.flv" />
+
+      <div class="workspace" id="workspace" hidden>
+
+        <div class="file-info" id="fileInfo"></div>
+
+        <video id="videoPreview" class="video-preview" controls preload="metadata"></video>
+
+        <div class="trim-section">
+          <p class="quality-label">Zakres przycinania</p>
+          <div class="trim-grid">
+            <div class="trim-field">
+              <label class="trim-label" for="inputStart">Od (sekundy)</label>
+              <input class="trim-input" type="number" id="inputStart" min="0" step="0.1" value="0" placeholder="0" />
+            </div>
+            <div class="trim-arrow">
+              <span class="ti ti-arrow-right" aria-hidden="true"></span>
+            </div>
+            <div class="trim-field">
+              <label class="trim-label" for="inputEnd">Do (sekundy)</label>
+              <input class="trim-input" type="number" id="inputEnd" min="0" step="0.1" placeholder="koniec" />
+            </div>
+            <div class="trim-duration" id="trimDuration"></div>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" id="btnTrim">
+            <span class="ti ti-movie" aria-hidden="true"></span>
+            Przytnij wideo
+          </button>
+          <button class="btn btn-ghost btn-sm" id="btnNewFile">
+            <span class="ti ti-folder-open" aria-hidden="true"></span> Inny plik
+          </button>
+        </div>
+
+        <div class="load-progress" id="loadProgress" hidden>
+          <div class="lp-bar"><div class="lp-fill" id="lpFill"></div></div>
+          <span class="lp-label" id="lpLabel">Przygotowuje...</span>
+        </div>
+
+        <div class="result-card" id="resultCard" hidden>
+          <div class="result-sizes">
+            <div class="result-size">
+              <span class="rs-label">Przed</span>
+              <span class="rs-value" id="sizeBefore"></span>
+            </div>
+            <span class="ti ti-arrow-right result-arrow" aria-hidden="true"></span>
+            <div class="result-size">
+              <span class="rs-label">Po</span>
+              <span class="rs-value rs-value-after" id="sizeAfter"></span>
+            </div>
+          </div>
+          <button class="btn btn-primary" id="btnDownload">
+            <span class="ti ti-file-download" aria-hidden="true"></span>
+            Pobierz przyciety plik
+          </button>
+        </div>
+
+      </div>
+
+      <div class="explainer">
+        <h2>Kiedy przycinanie wideo sie przydaje</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-presentation" aria-hidden="true"></span>
+            <h3>Nagrania ze spotkan</h3>
+            <p>Wytnij konkretny fragment nagrania bez udostepniania calej sesji.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-brand-youtube" aria-hidden="true"></span>
+            <h3>Klipy do publikacji</h3>
+            <p>Zachowaj tylko potrzebna czesc nagrania przed wgrani na platforme.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-device-floppy" aria-hidden="true"></span>
+            <h3>Mniejszy plik</h3>
+            <p>Krotszy fragment to mniejszy plik, latwiejszy do wyslania i przechowania.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Wszystko lokalnie</h3>
+            <p>Przycinanie odbywa sie w Twojej przegladarce. Plik nie trafia na zaden serwer.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <script src="/shared/ffmpeg/ffmpeg.js"></script>
+  <script src="/shared/layout.js"></script>
+  <script src="./trim-video.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sprawdź, czy dokument nie zawiera komentarzy, śledzonych zmian, ukrytego tekstu i notatek niewidocznych w normalnym podglądzie. Pliki nie opuszczają przeglądarki." />
+  <title>Ukryte treści w dokumencie | Narzędzia Aizyl</title>
+
+  <meta property="og:title" content="Ukryte treści w dokumencie — Aizyl" />
+  <meta property="og:description" content="Kancelaria wysyła umowę z wewnętrznym komentarzem. Ktoś ukrywa akapit zamiast go usunąć. Sprawdź, co siedzi w pliku, zanim go wyślesz." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/hidden/" />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./hidden.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzędzia</a>
+        <h1>Ukryte treści w dokumencie</h1>
+        <p>Komentarze, śledzone zmiany, ukryty tekst są niewidoczne w normalnym podglądzie, ale obecne w pliku. Sprawdź, co wysyłasz, zanim wyślesz.</p>
+        <span class="pill"><span class="dot"></span> Pliki zostają na tym komputerze</span>
+      </div>
+
+      <div class="dropzone" id="dropzone" tabindex="0" role="button"
+           aria-label="Wybierz dokumenty do sprawdzenia">
+        <span class="ti ti-eye-search dz-icon" aria-hidden="true"></span>
+        <p class="dz-title">Przeciągnij dokumenty tutaj</p>
+        <p class="dz-sub">albo kliknij, żeby wybrać · DOCX i PDF · możesz wrzucić kilka naraz</p>
+      </div>
+      <input type="file" id="picker" hidden multiple accept=".docx,.pdf,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+
+      <div class="results" id="results"></div>
+
+      <div class="note">
+        <strong>Ten moduł tylko pokazuje. Nie usuwa.</strong> Usuwanie komentarzy, akceptowanie
+        śledzonych zmian i czyszczenie właściwości dokumentu to osobna operacja, która wymaga
+        przebudowania pliku.
+      </div>
+
+      <div class="explainer">
+        <h2>Co może siedzieć w Twoim pliku</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-message-circle" aria-hidden="true"></span>
+            <h3>Komentarze</h3>
+            <p>Wewnętrzne uwagi redakcyjne, pytania do prawnika, notatki „do usunięcia przed wysłaniem", z imieniem i nazwiskiem autora.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-git-branch" aria-hidden="true"></span>
+            <h3>Śledzone zmiany</h3>
+            <p>Historia edycji: co kto dopisał i co usunął. Odbiorca może je odkryć jednym kliknięciem w Word.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-eye-off" aria-hidden="true"></span>
+            <h3>Ukryty tekst</h3>
+            <p>Akapit oznaczony jako ukryty nie wyświetla się w podglądzie, ale zostaje w pliku i można go zaznaczyć.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-user" aria-hidden="true"></span>
+            <h3>Dane autorów</h3>
+            <p>Imię i nazwisko osoby, która stworzyła dokument, kto go ostatnio modyfikował i kiedy, z właściwości pliku.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="/shared/layout.js"></script>
+  <script src="./hidden.js"></script>
+</body>
+</html>

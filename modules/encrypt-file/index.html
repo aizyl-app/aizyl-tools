@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Zaszyfruj dowolny plik haslem. Do odszyfrowania potrzebne jest to samo haslo. Dziala lokalnie." />
+  <title>Szyfrowanie pliku | Narzedzia Aizyl</title>
+  <meta property="og:title" content="Szyfrowanie pliku - Aizyl" />
+  <meta property="og:description" content="Zaszyfruj dowolny plik haslem lokalnie w przegladarce." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/encrypt-file/" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./encrypt-file.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzedzia</a>
+        <h1>Szyfrowanie pliku</h1>
+        <p>Zaszyfruj dowolny plik haslem. Do odszyfrowania potrzebne jest to samo haslo. Dziala lokalnie.</p>
+        <span class="pill"><span class="dot"></span> Plik zostaje na tym komputerze</span>
+      </div>
+
+      <div class="mode-bar">
+        <button class="mode-tab active" id="tabEncrypt">
+          <span class="ti ti-lock" aria-hidden="true"></span> Szyfruj
+        </button>
+        <button class="mode-tab" id="tabDecrypt">
+          <span class="ti ti-lock-open" aria-hidden="true"></span> Odszyfruj
+        </button>
+      </div>
+
+      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Wybierz plik">
+        <span class="ti ti-lock dz-icon" aria-hidden="true"></span>
+        <p class="dz-title">Przeciagnij dowolny plik tutaj</p>
+        <p class="dz-sub">albo kliknij, zeby wybrac</p>
+      </div>
+      <input type="file" id="picker" hidden />
+
+      <div class="workspace" id="workspace" hidden>
+
+        <div class="file-info" id="fileInfo"></div>
+
+        <div class="crypto-card">
+          <div class="field-group">
+            <label class="field-label" for="inputPassword">Haslo</label>
+            <div class="password-wrap">
+              <input class="password-input" type="password" id="inputPassword" placeholder="Wpisz haslo..." autocomplete="off" />
+              <button class="password-toggle" id="btnTogglePass" type="button" aria-label="Pokaz haslo">
+                <span class="ti ti-eye" aria-hidden="true"></span>
+              </button>
+            </div>
+          </div>
+
+          <div class="action-bar">
+            <button class="btn btn-primary" id="btnAction">
+              <span class="ti ti-lock" aria-hidden="true"></span> Szyfruj i pobierz
+            </button>
+            <button class="btn btn-ghost btn-sm" id="btnNewFile">
+              <span class="ti ti-folder-open" aria-hidden="true"></span> Inny plik
+            </button>
+          </div>
+
+          <div class="error-msg" id="errorMsg" hidden></div>
+
+          <div class="load-progress" id="loadProgress" hidden>
+            <div class="lp-bar"><div class="lp-fill" id="lpFill"></div></div>
+            <span class="lp-label" id="lpLabel">Szyfruję...</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="explainer">
+        <h2>Jak dziala szyfrowanie pliku</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-shield-lock" aria-hidden="true"></span>
+            <h3>AES-GCM 256-bit</h3>
+            <p>Plik szyfrowany jest algorytmem AES-GCM z kluczem 256-bitowym. Standard uzywany w bankach.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-key" aria-hidden="true"></span>
+            <h3>Haslo jako klucz</h3>
+            <p>Klucz szyfrujacy pochodzi z Twojego hasla przez funkcje PBKDF2. Bez hasla nie ma dostepu.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-file-download" aria-hidden="true"></span>
+            <h3>Plik .enc</h3>
+            <p>Zaszyfrowany plik zapisywany jest z rozszerzeniem .enc. Mozesz go wyslac dowolnym kanalem.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Wszystko lokalnie</h3>
+            <p>Plik i haslo nie opuszczaja przegladarki. Szyfrowanie odbywa sie na Twoim komputerze.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <script src="/shared/layout.js"></script>
+  <script src="./encrypt-file.js"></script>
+</body>
+</html>

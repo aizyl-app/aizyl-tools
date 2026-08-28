@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Przytnij marginesy i zbędne białe obszary w dokumencie PDF. Zaznacz myszką obszar do zachowania. Wszystko lokalnie." />
+  <title>Przycinanie PDF | Narzędzia Aizyl</title>
+
+  <meta property="og:title" content="Przycinanie PDF – Aizyl" />
+  <meta property="og:description" content="Przytnij marginesy PDF. Plik nie opuszcza Twojej przeglądarki." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/crop/" />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./crop.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzędzia</a>
+        <h1>Przycinanie PDF</h1>
+        <p>Zaznacz myszką obszar, który chcesz zachować. Reszta zostanie przycięta. Plik nie opuszcza przeglądarki.</p>
+        <span class="pill"><span class="dot"></span> Plik zostaje na tym komputerze</span>
+      </div>
+
+      <div class="dropzone" id="dropzone" tabindex="0" role="button"
+           aria-label="Wybierz plik PDF do przycinania">
+        <span class="ti ti-crop dz-icon" aria-hidden="true"></span>
+        <p class="dz-title">Przeciągnij plik PDF tutaj</p>
+        <p class="dz-sub">albo kliknij, żeby wybrać</p>
+      </div>
+      <input type="file" id="picker" hidden accept="application/pdf,.pdf" />
+
+      <div class="load-progress" id="loadProgress" style="display:none">
+        <div class="lp-bar"><div class="lp-fill" id="lpFill"></div></div>
+        <span class="lp-label" id="lpLabel">Wczytuję plik…</span>
+      </div>
+
+      <div class="workspace" id="workspace" hidden>
+
+        <div class="rd-toolbar">
+          <div class="rd-nav">
+            <button class="btn btn-ghost btn-sm rd-nav-btn" id="btnPrev" aria-label="Poprzednia strona">
+              <span class="ti ti-chevron-left" aria-hidden="true"></span>
+            </button>
+            <span class="rd-page-label" id="pageLabel">Strona 1 z 1</span>
+            <button class="btn btn-ghost btn-sm rd-nav-btn" id="btnNext" aria-label="Następna strona">
+              <span class="ti ti-chevron-right" aria-hidden="true"></span>
+            </button>
+          </div>
+          <div class="rd-actions">
+            <button class="btn btn-ghost btn-sm" id="btnClearPage">
+              <span class="ti ti-eraser" aria-hidden="true"></span> Wyczyść stronę
+            </button>
+            <button class="btn btn-ghost btn-sm" id="btnClearAll">
+              <span class="ti ti-trash" aria-hidden="true"></span> Wyczyść wszystko
+            </button>
+            <button class="btn btn-ghost btn-sm" id="btnChangeFile">
+              <span class="ti ti-refresh" aria-hidden="true"></span> Zmień plik
+            </button>
+          </div>
+        </div>
+
+        <div class="rd-viewer">
+          <div class="canvas-wrap" id="canvasWrap">
+            <canvas id="pdfCanvas"></canvas>
+            <canvas id="overlayCanvas"></canvas>
+          </div>
+          <p class="rd-hint">
+            <span class="ti ti-crop" aria-hidden="true"></span>
+            Zaznacz myszką obszar, który chcesz <strong>zachować</strong>
+          </p>
+        </div>
+
+        <div class="rd-meta">
+          <span class="rd-count" id="cropCount"></span>
+        </div>
+
+        <div class="crop-options">
+          <label class="opt-checkbox">
+            <input type="checkbox" id="applyAll" />
+            Zastosuj to samo przycinanie do wszystkich stron
+          </label>
+        </div>
+
+        <div class="rd-save-bar">
+          <button class="btn btn-primary" id="btnSave" disabled>
+            <span class="ti ti-file-download" aria-hidden="true"></span>
+            Pobierz przycięty PDF
+          </button>
+          <span class="rd-save-info" id="saveInfo"></span>
+        </div>
+
+      </div>
+
+      <div class="explainer">
+        <h2>Kiedy przycinanie się przydaje</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-scan" aria-hidden="true"></span>
+            <h3>Skany z dużymi marginesami</h3>
+            <p>Skaner często dodaje białe obramowanie. Przytnij je, żeby treść wypełniała całą stronę.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-layout-sidebar" aria-hidden="true"></span>
+            <h3>Ukryj nagłówki i stopki</h3>
+            <p>Chcesz udostępnić tylko treść bez firmowych nagłówków? Przytnij górę i dół strony.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-arrows-left-right" aria-hidden="true"></span>
+            <h3>Różne strony, różne cięcia</h3>
+            <p>Każda strona może mieć inne przycinanie. Przejdź między stronami i zaznacz osobno.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Plik nie wychodzi</h3>
+            <p>Całe przetwarzanie odbywa się w Twojej przeglądarce. Dokument nie trafia na żaden serwer.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Przycinanie ustawia obszar wyświetlania (CropBox).</strong>
+        Treść poza zaznaczonym obszarem jest ukryta, ale nadal istnieje w strukturze pliku PDF.
+        Większość programów i drukarek respektuje CropBox i pokaże tylko zaznaczony obszar.
+        Plik nie opuszcza Twojej przeglądarki.
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="/shared/layout.js"></script>
+  <script src="./crop.js"></script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Dodaj numery stron do pliku PDF. Wybierz pozycję, rozmiar i format numeracji. Lokalnie, bez wysyłania pliku na serwer." />
+  <title>Numery stron PDF | Narzędzia Aizyl</title>
+
+  <meta property="og:title" content="Numery stron PDF — Aizyl" />
+  <meta property="og:description" content="Dodaj numery stron do PDF. Plik nie opuszcza Twojej przeglądarki." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/page-numbers/" />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./page-numbers.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzędzia</a>
+        <h1>Numery stron PDF</h1>
+        <p>Dodaj numery stron do dokumentu. Wybierz pozycję, rozmiar i format. Plik nie opuszcza Twojej przeglądarki.</p>
+        <span class="pill"><span class="dot"></span> Pliki zostają na tym komputerze</span>
+      </div>
+
+      <div class="dropzone" id="dropzone" tabindex="0" role="button"
+           aria-label="Wybierz plik PDF">
+        <span class="ti ti-list-numbers dz-icon" aria-hidden="true"></span>
+        <p class="dz-title">Przeciągnij plik PDF tutaj</p>
+        <p class="dz-sub">albo kliknij, żeby wybrać · jeden plik PDF</p>
+      </div>
+      <input type="file" id="picker" hidden accept="application/pdf,.pdf" />
+
+      <div class="workspace" id="workspace" hidden>
+
+        <div class="file-info" id="fileInfo"></div>
+
+        <div class="controls-panel">
+
+          <div class="ctrl-section">
+            <p class="ctrl-section-label">Pozycja pionowa</p>
+            <div class="pos-btns" role="group">
+              <button class="pos-btn active" data-vert="bottom">
+                <span class="ti ti-layout-bottombar" aria-hidden="true"></span> Dół
+              </button>
+              <button class="pos-btn" data-vert="top">
+                <span class="ti ti-layout-navbar" aria-hidden="true"></span> Góra
+              </button>
+            </div>
+          </div>
+
+          <div class="ctrl-section">
+            <p class="ctrl-section-label">Pozycja pozioma</p>
+            <div class="pos-btns" role="group">
+              <button class="pos-btn" data-horiz="left">
+                <span class="ti ti-align-left" aria-hidden="true"></span> Lewo
+              </button>
+              <button class="pos-btn active" data-horiz="center">
+                <span class="ti ti-align-center" aria-hidden="true"></span> Środek
+              </button>
+              <button class="pos-btn" data-horiz="right">
+                <span class="ti ti-align-right" aria-hidden="true"></span> Prawo
+              </button>
+            </div>
+          </div>
+
+          <div class="ctrl-row">
+            <div class="ctrl-group">
+              <label class="ctrl-label" for="inputPrefix">Prefiks</label>
+              <input type="text" class="ctrl-input" id="inputPrefix"
+                     placeholder="np. Strona, str., -" maxlength="20" />
+            </div>
+            <div class="ctrl-group">
+              <label class="ctrl-label" for="inputStartNum">Numeruj od</label>
+              <input type="number" class="ctrl-input ctrl-input-sm" id="inputStartNum"
+                     min="1" value="1" />
+            </div>
+            <div class="ctrl-group">
+              <label class="ctrl-label" for="inputSkipFirst">
+                <input type="checkbox" id="inputSkipFirst" />
+                Pomiń pierwszą stronę
+              </label>
+            </div>
+          </div>
+
+          <div class="ctrl-row">
+            <div class="ctrl-group">
+              <label class="ctrl-label">
+                Rozmiar czcionki
+                <span class="ctrl-val" id="valSize">11</span>
+              </label>
+              <input type="range" class="ctrl-slider" id="inputSize"
+                     min="7" max="24" value="11" />
+            </div>
+            <div class="ctrl-group">
+              <label class="ctrl-label" for="inputColor">Kolor</label>
+              <input type="color" class="ctrl-color" id="inputColor" value="#333333" />
+            </div>
+            <div class="ctrl-group">
+              <label class="ctrl-label">
+                Margines od krawędzi
+                <span class="ctrl-val" id="valMargin">20</span> pt
+              </label>
+              <input type="range" class="ctrl-slider" id="inputMargin"
+                     min="8" max="60" value="20" />
+            </div>
+          </div>
+
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" id="btnApply">
+            <span class="ti ti-file-download" aria-hidden="true"></span>
+            Dodaj numery i pobierz
+          </button>
+          <button class="btn btn-ghost btn-sm" id="btnNewFile">
+            <span class="ti ti-folder-open" aria-hidden="true"></span> Inny plik
+          </button>
+          <span class="action-status" id="actionStatus"></span>
+        </div>
+
+      </div>
+
+      <div class="explainer">
+        <h2>Kiedy przydają się numery stron</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-file-text" aria-hidden="true"></span>
+            <h3>Umowy i dokumenty prawne</h3>
+            <p>Numerowane strony ułatwiają odwoływanie się do konkretnych fragmentów podczas negocjacji lub w sądzie.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-presentation" aria-hidden="true"></span>
+            <h3>Raporty i prezentacje</h3>
+            <p>Spis treści i numery stron sprawiają że odbiorca łatwo nawiguje po długim dokumencie.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-printer" aria-hidden="true"></span>
+            <h3>Wydruki</h3>
+            <p>Wydrukowane strony z numerami można łatwo posortować i nie zgubić kolejności.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Wszystko lokalnie</h3>
+            <p>Numerowanie odbywa się w Twojej przeglądarce. Dokument nie trafia na żaden zewnętrzny serwer.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="/shared/layout.js"></script>
+  <script src="./page-numbers.js"></script>
+</body>
+</html>

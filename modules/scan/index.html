@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Zrób zdjęcia kamerą i zapisz je jako PDF. Działa lokalnie, bez wysyłania plików na serwer." />
+  <title>Skan do PDF | Narzędzia Aizyl</title>
+
+  <meta property="og:title" content="Skan do PDF – Aizyl" />
+  <meta property="og:description" content="Sfotografuj dokument kamerą i zapisz jako PDF. Lokalnie." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/scan/" />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./scan.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzędzia</a>
+        <h1>Skan do PDF</h1>
+        <p>Sfotografuj dokument kamerą i zapisz jako PDF. Każde zdjęcie to jedna strona. Pliki nie opuszczają przeglądarki.</p>
+        <span class="pill"><span class="dot"></span> Zdjęcia zostają na tym komputerze</span>
+      </div>
+
+      <div class="cam-section" id="camSection">
+        <div class="cam-wrap" id="camWrap">
+          <video class="cam-video" id="camVideo" autoplay playsinline muted></video>
+          <canvas class="cam-canvas" id="camCanvas" hidden></canvas>
+          <div class="cam-overlay" id="camOverlay">
+            <span class="ti ti-camera-off cam-off-icon" aria-hidden="true"></span>
+            <p class="cam-off-text" id="camOffText">Kliknij, żeby uruchomić kamerę</p>
+            <button class="btn btn-primary" id="btnStartCam">
+              <span class="ti ti-camera" aria-hidden="true"></span> Uruchom kamerę
+            </button>
+          </div>
+        </div>
+        <div class="cam-controls" id="camControls" hidden>
+          <button class="btn btn-primary cam-shoot" id="btnShoot">
+            <span class="ti ti-camera" aria-hidden="true"></span> Zrób zdjęcie
+          </button>
+          <button class="btn btn-ghost btn-sm" id="btnFlip">
+            <span class="ti ti-flip-vertical" aria-hidden="true"></span> Obróć kamerę
+          </button>
+          <button class="btn btn-ghost btn-sm" id="btnStopCam">
+            <span class="ti ti-camera-off" aria-hidden="true"></span> Zatrzymaj
+          </button>
+        </div>
+      </div>
+
+      <div class="workspace" id="workspace" hidden>
+        <div class="ws-toolbar">
+          <span class="ws-count" id="wsCount"></span>
+          <div class="ws-actions">
+            <button class="btn btn-ghost btn-sm" id="btnClear">
+              <span class="ti ti-trash" aria-hidden="true"></span> Wyczyść
+            </button>
+          </div>
+        </div>
+
+        <div class="page-grid" id="pageGrid" role="list"
+             aria-label="Zrobione zdjęcia. Przeciągnij, żeby zmienić kolejność"></div>
+
+        <div class="itp-options">
+          <span class="opt-label">Rozmiar strony:</span>
+          <label class="opt-radio">
+            <input type="radio" name="pageSize" value="fit" checked /> Dopasuj do zdjęcia
+          </label>
+          <label class="opt-radio">
+            <input type="radio" name="pageSize" value="a4" /> A4 pionowy
+          </label>
+          <label class="opt-radio">
+            <input type="radio" name="pageSize" value="a4l" /> A4 poziomy
+          </label>
+        </div>
+
+        <div class="merge-bar">
+          <button class="btn btn-primary" id="btnSave">
+            <span class="ti ti-file-download" aria-hidden="true"></span>
+            Pobierz PDF
+          </button>
+          <span class="merge-info" id="saveInfo"></span>
+        </div>
+      </div>
+
+      <div class="explainer">
+        <h2>Jak to działa</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-camera" aria-hidden="true"></span>
+            <h3>Uruchom kamerę</h3>
+            <p>Kliknij przycisk — przeglądarka poprosi o dostęp do kamery. Żaden obraz nie jest wysyłany na serwer.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-file-plus" aria-hidden="true"></span>
+            <h3>Fotografuj strony</h3>
+            <p>Każde kliknięcie „Zrób zdjęcie" dodaje nową stronę do dokumentu. Możesz fotografować tyle stron, ile chcesz.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-arrows-sort" aria-hidden="true"></span>
+            <h3>Zmień kolejność</h3>
+            <p>Przeciągnij strony w odpowiednie miejsce lub usuń nieudane zdjęcia przed zapisaniem.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-file-download" aria-hidden="true"></span>
+            <h3>Pobierz PDF</h3>
+            <p>Gotowy dokument PDF z wszystkimi zdjęciami jako stronami. Jeden klik i masz plik gotowy do wysyłki.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Kamera i zdjęcia nie opuszczają przeglądarki.</strong>
+        Strumień wideo jest przetwarzany lokalnie. Żadne zdjęcie nie jest wysyłane na zewnętrzny serwer.
+        PDF jest składany bezpośrednio w przeglądarce przez bibliotekę pdf-lib.
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <template id="imgTpl">
+    <div class="page-card" role="listitem" draggable="true">
+      <div class="pc-thumb-wrap">
+        <img class="pc-img" alt="" />
+        <div class="pc-overlay">
+          <button class="pc-btn pc-delete" title="Usuń zdjęcie" aria-label="Usuń zdjęcie">
+            <span class="ti ti-trash" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+      <div class="pc-meta">
+        <span class="pc-num"></span>
+      </div>
+      <div class="pc-kbd" role="group" aria-label="Zmień pozycję">
+        <button class="pc-move pc-move-left" aria-label="Przesuń w lewo">
+          <span class="ti ti-chevron-left" aria-hidden="true"></span>
+        </button>
+        <label class="pc-pos-label">
+          <input type="number" class="pc-pos-input" min="1" aria-label="Numer pozycji" />
+        </label>
+        <button class="pc-move pc-move-right" aria-label="Przesuń w prawo">
+          <span class="ti ti-chevron-right" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </template>
+
+  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="/shared/layout.js"></script>
+  <script src="./scan.js"></script>
+</body>
+</html>

@@ -1,0 +1,297 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Darmowe narzędzia do bezpiecznej pracy. Wszystko działa lokalnie, w Twojej przeglądarce. Pliki nie trafiają na żaden serwer." />
+  <title>AIZYL tools | azyl dla twojej pracy i danych</title>
+
+  <meta property="og:title" content="Aizyl Tools" />
+  <meta property="og:description" content="Darmowe narzędzia do pracy z dokumentami. Pliki nie opuszczają Twojego komputera." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Aizyl Tools" />
+  <meta name="twitter:description" content="Pliki nie opuszczają Twojego komputera." />
+  <meta name="twitter:image" content="https://aizyl.pl/assets/og-image.png" />
+
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="apple-touch-icon" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+
+  <style>
+    .hub-head { padding: 56px 0 30px; }
+    .hub-eyebrow {
+      font-size: 13px; color: var(--primary); margin: 0 0 12px;
+      letter-spacing: .04em;
+    }
+    .hub-head h1 { font-size: 34px; font-weight: 500; line-height: 1.22; margin: 0 0 14px; letter-spacing: -.015em; }
+    .hub-head p { margin: 0; color: var(--muted-foreground); font-size: 16.5px; }
+
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 22px; }
+    .chip {
+      font: inherit; font-size: 14px; cursor: pointer;
+      background: var(--card-glass); color: var(--muted-foreground);
+      border: 1px solid var(--border); border-radius: 999px; padding: 6px 15px;
+    }
+    .chip[aria-pressed="true"] { background: var(--foreground); border-color: var(--foreground); color: #fff; }
+
+    .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .tile {
+      display: flex; flex-direction: column; gap: 9px;
+      background: var(--card-glass); border: 1px solid var(--border-soft); border-radius: var(--radius-card);
+      padding: 26px; text-decoration: none; color: inherit; box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(10px);
+      transition: border-color .15s ease, transform .15s ease;
+    }
+    a.tile:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow-lift); text-decoration: none; }
+    .tile-icon { font-size: 22px; color: var(--primary); line-height: 1; }
+    .tile h2 { font-size: 16.5px; font-weight: 500; margin: 0; }
+    .tile p { margin: 0; font-size: 14.5px; color: var(--muted-foreground); line-height: 1.55; }
+    .tile-foot { margin-top: auto; padding-top: 10px; display: flex; align-items: center; gap: 8px; }
+    .tag {
+      font-size: 11.5px; letter-spacing: .04em; text-transform: uppercase;
+      padding: 3px 9px; border-radius: 999px;
+      background: var(--primary-soft); color: var(--primary);
+    }
+    .tile.soon { opacity: .62; cursor: default; box-shadow: none; }
+    .tile.soon .tile-icon { color: var(--muted-foreground); }
+    .tile.soon .tag { background: var(--secondary); color: var(--muted-foreground); }
+
+    .note {
+      margin: 36px 0 0; padding: 22px 24px;
+      border: 1px solid var(--border-soft); border-left: 2px solid var(--primary);
+      background: var(--card-glass); border-radius: var(--radius-card);
+      font-size: 14.5px; color: var(--muted-foreground); max-width: 760px;
+    }
+    .note strong { color: var(--foreground); font-weight: 500; }
+
+    @media (max-width: 900px) { .tiles { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 620px) {
+      .tiles { grid-template-columns: 1fr; }
+      .hub-head h1 { font-size: 27px; }
+      .hub-head { padding: 36px 0 24px; }
+    }
+
+    .search-wrap {
+      position: relative; display: flex; align-items: center;
+      margin: 0 0 20px;
+    }
+    .search-icon {
+      position: absolute; left: 16px; font-size: 18px;
+      color: var(--muted-foreground); pointer-events: none; z-index: 1;
+      transition: color .15s;
+    }
+    .search-wrap:focus-within .search-icon { color: var(--primary); }
+
+    .search-input {
+      width: 100%; font: inherit; font-size: 15.5px;
+      padding: 13px 44px 13px 46px;
+      background: var(--card-glass); border: 1.5px solid var(--border-soft);
+      border-radius: var(--radius-card); color: var(--foreground);
+      box-shadow: var(--shadow-soft), 0 4px 24px -8px rgba(11,105,81,.08);
+      backdrop-filter: blur(12px);
+      outline: none; transition: border-color .15s, box-shadow .15s;
+      -webkit-appearance: none; appearance: none;
+    }
+    .search-input::placeholder { color: var(--muted-foreground); opacity: .7; }
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-soft), 0 4px 24px -8px rgba(11,105,81,.18), 0 0 0 3px var(--primary-soft);
+    }
+    .search-input::-webkit-search-cancel-button { display: none; }
+
+    .search-clear {
+      position: absolute; right: 10px;
+      width: 26px; height: 26px; border-radius: 50%; border: 0;
+      background: var(--border); color: var(--muted-foreground);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; cursor: pointer; transition: background .12s, color .12s;
+    }
+    .search-clear:hover { background: var(--foreground); color: #fff; }
+
+    .search-empty {
+      padding: 56px 0; text-align: center;
+      font-size: 15px; color: var(--muted-foreground);
+    }
+    .search-empty strong { color: var(--foreground); }
+
+    .trust-pills {
+      display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap;
+      margin: 10px 0 20px; font-size: 13.5px; color: var(--muted-foreground);
+    }
+    .trust-pills span { display: inline-flex; align-items: center; gap: 5px; }
+    .trust-pills .ti { font-size: 14px; color: var(--primary); }
+    .trust-dot { opacity: .3; font-size: 16px; }
+  </style>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="hub-head">
+        <p class="hub-eyebrow">Aizyl Tools</p>
+        <h1>Pracuj, bez wysyłania swoich plików i danych komukolwiek</h1>
+        <p>Każde narzędzie działa lokalnie, w Twojej przeglądarce. Plik nie trafia na żaden serwer.</p>
+      </div>
+
+      <div class="search-wrap">
+        <span class="ti ti-search search-icon" aria-hidden="true"></span>
+        <input type="search" id="toolSearch" class="search-input"
+               placeholder="Czego szukasz? Spróbuj „kompresja pdf" albo „usuń tło"…"
+               autocomplete="off" spellcheck="false" aria-label="Szukaj narzędzi" />
+        <button class="search-clear" id="searchClear" hidden aria-label="Wyczyść">
+          <span class="ti ti-x" aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="trust-pills">
+        <span><span class="ti ti-server-off" aria-hidden="true"></span> Bez serwerów</span>
+        <span class="trust-dot">·</span>
+        <span><span class="ti ti-user-off" aria-hidden="true"></span> Bez rejestracji</span>
+        <span class="trust-dot">·</span>
+        <span><span class="ti ti-heart" aria-hidden="true"></span> Za darmo</span>
+      </div>
+      <div class="filters" id="filters" role="group" aria-label="Kategorie"></div>
+      <div class="tiles" id="tiles"></div>
+
+      <div class="note">
+        <strong>Dlaczego to jest bezpieczne.</strong> Narzędzia działają w całości na Twoim komputerze, wykorzystując jego własną moc obliczeniową.
+        W Aizyl wierzymy, że jest jeszcze szansa na to by coś zmienić
+        w świecie, gdzie nawet najmniejsze operacje wymagaja oddania komuś wlasnych zasobów.
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <script src="/shared/layout.js"></script>
+  <script>
+  (function () {
+    'use strict';
+    var state = { cat: 'all', data: null, query: '' };
+    var tiles = document.getElementById('tiles');
+    var filters = document.getElementById('filters');
+
+    function esc(s) {
+      return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function renderFilters() {
+      var cats = [{ id: 'all', name: 'Wszystkie' }].concat(state.data.categories);
+      filters.innerHTML = cats.map(function (c) {
+        return '<button class="chip" data-cat="' + c.id + '" aria-pressed="' +
+          (c.id === state.cat) + '">' + esc(c.name) + '</button>';
+      }).join('');
+    }
+
+    var searchInput = document.getElementById('toolSearch');
+    var searchClear = document.getElementById('searchClear');
+
+    searchInput.addEventListener('input', function () {
+      state.query = searchInput.value.toLowerCase().trim();
+      searchClear.hidden = !state.query;
+      renderTiles();
+    });
+    searchClear.addEventListener('click', function () {
+      searchInput.value = '';
+      state.query = '';
+      searchClear.hidden = true;
+      renderTiles();
+      searchInput.focus();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        searchInput.focus();
+        searchInput.select();
+      }
+      if (e.key === 'Escape' && document.activeElement === searchInput) {
+        searchInput.blur();
+      }
+    });
+
+    function matchesQuery(m, q) {
+      if (!q) return true;
+      var words = q.split(/\s+/).filter(Boolean);
+      var haystack = (m.name + ' ' + m.desc).toLowerCase();
+      return words.every(function (w) { return haystack.indexOf(w) !== -1; });
+    }
+
+    function scoreModule(m, q) {
+      if (!q) return 0;
+      var name = m.name.toLowerCase();
+      if (name === q) return 3;
+      if (name.indexOf(q) === 0) return 2;
+      if (name.indexOf(q) !== -1) return 1;
+      return 0;
+    }
+
+    function renderTiles() {
+      var q = state.query;
+      var list = state.data.modules.filter(function (m) {
+        var catOk = state.cat === 'all' || m.category === state.cat;
+        return catOk && matchesQuery(m, q);
+      });
+
+      if (q) {
+        list.sort(function (a, b) { return scoreModule(b, q) - scoreModule(a, q); });
+      }
+      list.sort(function (a, b) {
+        if (a.status === b.status) return 0;
+        return a.status === 'ready' ? -1 : 1;
+      });
+
+      if (list.length === 0) {
+        tiles.innerHTML = '<div class="search-empty">Nie znaleziono narzędzi pasujących do „' + esc(state.query || state.cat) + '"</div>';
+        return;
+      }
+
+      tiles.innerHTML = list.map(function (m) {
+        var ready = m.status === 'ready';
+        var inner =
+          '<span class="tile-icon ti ' + esc(m.icon) + '" aria-hidden="true"></span>' +
+          '<h2>' + esc(m.name) + '</h2>' +
+          '<p>' + esc(m.desc) + '</p>' +
+          '<div class="tile-foot"><span class="tag">' +
+            (ready ? 'Działa lokalnie' : 'W przygotowaniu') +
+          '</span></div>';
+        return ready
+          ? '<a class="tile" href="' + esc(m.path) + '">' + inner + '</a>'
+          : '<div class="tile soon">' + inner + '</div>';
+      }).join('');
+    }
+
+    filters.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-cat]');
+      if (!b) return;
+      state.cat = b.dataset.cat;
+      renderFilters();
+      renderTiles();
+    });
+
+    fetch('/modules.json')
+      .then(function (r) { return r.json(); })
+      .then(function (d) { state.data = d; renderFilters(); renderTiles(); })
+      .catch(function () {
+        tiles.innerHTML = '<p style="color:var(--muted-foreground)">Nie udało się wczytać listy narzędzi. Odśwież stronę.</p>';
+      });
+  })();
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Wyodrębnij wybrane strony z PDF. Zapisz jako jeden plik lub pobierz każdą stronę osobno. Lokalnie, bez wysyłania pliku na serwer." />
+  <title>Podział PDF | Narzędzia Aizyl</title>
+
+  <meta property="og:title" content="Podział PDF — Aizyl" />
+  <meta property="og:description" content="Wybierz strony z PDF i pobierz jako nowy plik. Pliki nie opuszczają Twojej przeglądarki." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/split/" />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./split.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzędzia</a>
+        <h1>Podział PDF</h1>
+        <p>Zaznacz strony, które chcesz zachować, i pobierz je jako nowy plik lub każdą stronę osobno. Bez wysyłania dokumentu na cudzy serwer.</p>
+        <span class="pill"><span class="dot"></span> Pliki zostają na tym komputerze</span>
+      </div>
+
+      <div class="dropzone" id="dropzone" tabindex="0" role="button"
+           aria-label="Wybierz plik PDF do podziału">
+        <span class="ti ti-scissors dz-icon" aria-hidden="true"></span>
+        <p class="dz-title">Przeciągnij plik PDF tutaj</p>
+        <p class="dz-sub">albo kliknij, żeby wybrać · jeden plik PDF</p>
+      </div>
+      <input type="file" id="picker" hidden accept="application/pdf,.pdf" />
+
+      <div class="load-progress" id="loadProgress" hidden>
+        <div class="lp-bar"><div class="lp-fill" id="lpFill"></div></div>
+        <span class="lp-label" id="lpLabel">Wczytuję strony…</span>
+      </div>
+
+      <div class="workspace" id="workspace" hidden>
+        <div class="ws-toolbar">
+          <span class="ws-count" id="wsCount"></span>
+          <div class="ws-actions">
+            <button class="btn btn-ghost btn-sm" id="btnSelectAll">Zaznacz wszystkie</button>
+            <button class="btn btn-ghost btn-sm" id="btnSelectNone">Odznacz wszystkie</button>
+            <button class="btn btn-ghost btn-sm" id="btnNewFile">
+              <span class="ti ti-folder-open" aria-hidden="true"></span> Inny plik
+            </button>
+          </div>
+        </div>
+
+        <div class="page-grid" id="pageGrid" role="list"
+             aria-label="Strony dokumentu. Kliknij, żeby zaznaczyć"></div>
+
+        <div class="split-bar">
+          <div class="split-bar-left">
+            <span class="split-bar-info" id="splitBarInfo"></span>
+          </div>
+          <div class="split-bar-actions">
+            <button class="btn btn-primary" id="btnDownloadOne">
+              <span class="ti ti-file-download" aria-hidden="true"></span>
+              Pobierz jako jeden PDF
+            </button>
+            <button class="btn btn-ghost" id="btnDownloadZip">
+              <span class="ti ti-package" aria-hidden="true"></span>
+              Pobierz strony osobno (ZIP)
+            </button>
+          </div>
+          <span class="split-status" id="splitStatus"></span>
+        </div>
+      </div>
+
+      <div class="explainer">
+        <h2>Do czego służy podział PDF</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Dokumenty nie wychodzą</h3>
+            <p>Podział odbywa się w Twojej przeglądarce. Żaden bajt umowy ani faktury nie trafia na zewnętrzny serwer.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-checks" aria-hidden="true"></span>
+            <h3>Wybierz strony</h3>
+            <p>Kliknij miniatury stron, które chcesz zachować. Reszta zostaje pominięta przy pobieraniu.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-files" aria-hidden="true"></span>
+            <h3>Jeden plik lub osobno</h3>
+            <p>Pobierz zaznaczone strony jako jeden PDF albo jako archiwum ZIP z każdą stroną w oddzielnym pliku.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-scissors" aria-hidden="true"></span>
+            <h3>Wyciągnij fragment</h3>
+            <p>Idealnie do wyodrębniania konkretnych załączników, aneksów lub stron z długich umów i raportów.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Podział jest w pełni lokalny.</strong> Biblioteki pdf-lib i PDF.js działają bezpośrednio
+        w przeglądarce. żadne dane nie opuszczają Twojego komputera.
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <template id="pageTpl">
+    <div class="page-card" role="listitem">
+      <div class="pc-thumb-wrap">
+        <canvas class="pc-canvas"></canvas>
+        <div class="pc-spinner" aria-hidden="true"></div>
+        <div class="pc-check-badge" aria-hidden="true">
+          <span class="ti ti-check"></span>
+        </div>
+        <div class="pc-overlay">
+          <button class="pc-btn pc-rotate" title="Obróć o 90°" aria-label="Obróć stronę o 90°">
+            <span class="ti ti-rotate-clockwise" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+      <div class="pc-meta">
+        <span class="pc-num"></span>
+      </div>
+    </div>
+  </template>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="/shared/layout.js"></script>
+  <script src="./split.js"></script>
+</body>
+</html>

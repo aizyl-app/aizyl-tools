@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Połącz zdjęcia i obrazy w jeden plik PDF. Zmień kolejność, ustaw rozmiar strony. Wszystko lokalnie, bez wysyłania plików na serwer." />
+  <title>Obrazy do PDF | Narzędzia Aizyl</title>
+
+  <meta property="og:title" content="Obrazy do PDF – Aizyl" />
+  <meta property="og:description" content="Połącz zdjęcia w PDF. Pliki nie opuszczają Twojej przeglądarki." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/image-to-pdf/" />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./image-to-pdf.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzędzia</a>
+        <h1>Obrazy do PDF</h1>
+        <p>Połącz zdjęcia i skany w jeden plik PDF. Zmień kolejność przeciągając. Bez wysyłania plików na cudzy serwer.</p>
+        <span class="pill"><span class="dot"></span> Pliki zostają na tym komputerze</span>
+      </div>
+
+      <div class="dropzone" id="dropzone" tabindex="0" role="button"
+           aria-label="Wybierz obrazy do połączenia w PDF">
+        <span class="ti ti-photo-plus dz-icon" aria-hidden="true"></span>
+        <p class="dz-title">Przeciągnij zdjęcia tutaj</p>
+        <p class="dz-sub">albo kliknij, żeby wybrać · JPG, PNG, WebP, GIF, BMP · możesz wrzucić kilka naraz</p>
+      </div>
+      <input type="file" id="picker" hidden multiple accept="image/jpeg,image/png,image/webp,image/gif,image/bmp,image/avif,.jpg,.jpeg,.png,.webp,.gif,.bmp,.avif" />
+
+      <div class="workspace" id="workspace" hidden>
+        <div class="ws-toolbar">
+          <span class="ws-count" id="wsCount"></span>
+          <div class="ws-actions">
+            <button class="btn btn-ghost btn-sm" id="btnAddMore">
+              <span class="ti ti-plus" aria-hidden="true"></span> Dodaj obrazy
+            </button>
+            <button class="btn btn-ghost btn-sm" id="btnClear">
+              <span class="ti ti-trash" aria-hidden="true"></span> Wyczyść
+            </button>
+          </div>
+        </div>
+
+        <div class="page-grid" id="pageGrid" role="list"
+             aria-label="Obrazy do połączenia. Przeciągnij, żeby zmienić kolejność"></div>
+
+        <div class="itp-options">
+          <span class="opt-label">Rozmiar strony:</span>
+          <label class="opt-radio">
+            <input type="radio" name="pageSize" value="fit" checked /> Dopasuj do obrazu
+          </label>
+          <label class="opt-radio">
+            <input type="radio" name="pageSize" value="a4" /> A4 pionowy
+          </label>
+          <label class="opt-radio">
+            <input type="radio" name="pageSize" value="a4l" /> A4 poziomy
+          </label>
+        </div>
+
+        <div class="merge-bar">
+          <button class="btn btn-primary" id="btnConvert">
+            <span class="ti ti-file-download" aria-hidden="true"></span>
+            Pobierz PDF
+          </button>
+          <span class="merge-info" id="convertInfo"></span>
+        </div>
+      </div>
+
+      <div class="explainer">
+        <h2>Kiedy to się przydaje</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-camera" aria-hidden="true"></span>
+            <h3>Skany dokumentów</h3>
+            <p>Zrobiłeś zdjęcia kolejnych stron umowy? Złącz je w jeden plik PDF gotowy do wysyłki.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-arrows-sort" aria-hidden="true"></span>
+            <h3>Dowolna kolejność</h3>
+            <p>Przeciągnij obrazy w odpowiednie miejsce albo użyj strzałek. Każdy obraz to jedna strona.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-layout-rows" aria-hidden="true"></span>
+            <h3>Rozmiar strony</h3>
+            <p>Dopasuj stronę do rozmiaru obrazu albo wstaw go na A4 — pionowo lub poziomo.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Pliki nie wychodzą</h3>
+            <p>Całe przetwarzanie odbywa się w Twojej przeglądarce. Żaden obraz nie trafia na zewnętrzny serwer.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Konwersja jest w pełni lokalna.</strong> Biblioteka pdf-lib działa bezpośrednio
+        w przeglądarce. Żadne dane nie opuszczają Twojego komputera.
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <template id="imgTpl">
+    <div class="page-card" role="listitem" draggable="true">
+      <div class="pc-thumb-wrap">
+        <img class="pc-img" alt="" />
+        <div class="pc-overlay">
+          <button class="pc-btn pc-delete" title="Usuń obraz" aria-label="Usuń obraz">
+            <span class="ti ti-trash" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+      <div class="pc-meta">
+        <span class="pc-num"></span>
+        <span class="pc-src"></span>
+      </div>
+      <div class="pc-kbd" role="group" aria-label="Zmień pozycję obrazu">
+        <button class="pc-move pc-move-left" aria-label="Przesuń w lewo">
+          <span class="ti ti-chevron-left" aria-hidden="true"></span>
+        </button>
+        <label class="pc-pos-label">
+          <input type="number" class="pc-pos-input" min="1" aria-label="Numer pozycji" />
+        </label>
+        <button class="pc-move pc-move-right" aria-label="Przesuń w prawo">
+          <span class="ti ti-chevron-right" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </template>
+
+  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="/shared/layout.js"></script>
+  <script src="./image-to-pdf.js"></script>
+</body>
+</html>

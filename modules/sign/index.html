@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Wypełnij i podpisz formularz PDF bez drukowania, skanowania i bez wysyłania go komukolwiek. Dokument nie opuszcza Twojego komputera." />
+  <title>Podpisywanie PDF | Narzędzia Aizyl</title>
+
+  <meta property="og:title" content="Podpisywanie PDF — Aizyl" />
+  <meta property="og:description" content="Wypełnij i podpisz umowę lub formularz w kilka kliknięć. Dokument nie opuszcza Twojej przeglądarki." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/sign/" />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./sign.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzędzia</a>
+        <h1>Wypełnianie i podpisywanie PDF</h1>
+        <p>Wypełnij formularz lub umowę i złóż podpis bez drukowania, skanowania i bez wysyłania dokumentu komukolwiek. Wszystko dzieje się wyłącznie w Twojej przeglądarce.</p>
+        <span class="pill"><span class="dot"></span> Dokument nie opuszcza tego komputera</span>
+      </div>
+
+      <!-- Strefa upuszczania pliku -->
+      <div class="dropzone" id="dropzone" tabindex="0" role="button"
+           aria-label="Wybierz plik PDF do wypełnienia i podpisania">
+        <span class="ti ti-signature dz-icon" aria-hidden="true"></span>
+        <p class="dz-title">Przeciągnij plik PDF tutaj</p>
+        <p class="dz-sub">albo kliknij, żeby wybrać · jeden plik PDF</p>
+      </div>
+      <input type="file" id="picker" hidden accept="application/pdf,.pdf" />
+
+      <!-- Pasek postępu wczytywania -->
+      <div class="load-progress" id="loadProgress" hidden>
+        <div class="lp-bar"><div class="lp-fill" id="lpFill"></div></div>
+        <span class="lp-label" id="lpLabel">Wczytuję strony…</span>
+      </div>
+
+      <!-- Kontener błędów -->
+      <div class="errors-list" id="errorsList"></div>
+
+      <!-- Obszar roboczy -->
+      <div class="workspace" id="workspace" hidden>
+
+        <!-- Pasek narzędzi -->
+        <div class="toolbar" id="toolbar" role="toolbar" aria-label="Narzędzia edycji">
+
+          <div class="tool-group">
+            <button class="tool-btn active" id="toolText" data-tool="text"
+                    title="Dodaj tekst" aria-pressed="true">
+              <span class="ti ti-cursor-text" aria-hidden="true"></span>
+              <span class="tool-label">Tekst</span>
+            </button>
+            <button class="tool-btn" id="toolCheck" data-tool="check"
+                    title="Wstaw ptaszek / krzyżyk" aria-pressed="false">
+              <span class="ti ti-checkbox" aria-hidden="true"></span>
+              <span class="tool-label">Ptaszek</span>
+            </button>
+            <button class="tool-btn" id="toolDate" data-tool="date"
+                    title="Wstaw datę" aria-pressed="false">
+              <span class="ti ti-calendar" aria-hidden="true"></span>
+              <span class="tool-label">Data</span>
+            </button>
+            <button class="tool-btn" id="toolSign" data-tool="sign"
+                    title="Wstaw podpis" aria-pressed="false">
+              <span class="ti ti-writing-sign" aria-hidden="true"></span>
+              <span class="tool-label">Podpis</span>
+            </button>
+            <button class="tool-btn" id="toolInitial" data-tool="initial"
+                    title="Wstaw parafkę" aria-pressed="false">
+              <span class="ti ti-writing" aria-hidden="true"></span>
+              <span class="tool-label">Parafka</span>
+            </button>
+            <button class="tool-btn" id="toolStamp" data-tool="stamp"
+                    title="Wstaw pieczątkę" aria-pressed="false">
+              <span class="ti ti-stamp" aria-hidden="true"></span>
+              <span class="tool-label">Pieczątka</span>
+            </button>
+          </div>
+
+          <div class="tool-sep"></div>
+
+          <!-- Opcje tekstu -->
+          <div class="tool-group tool-text-opts" id="textOpts">
+            <label class="tool-opt-label">Rozmiar
+              <select class="tool-select" id="fontSize">
+                <option value="8">8</option>
+                <option value="10">10</option>
+                <option value="12" selected>12</option>
+                <option value="14">14</option>
+                <option value="16">16</option>
+                <option value="18">18</option>
+                <option value="20">20</option>
+                <option value="24">24</option>
+              </select>
+            </label>
+            <label class="tool-opt-label">Kolor
+              <input type="color" class="tool-color" id="fontColor" value="#000000" />
+            </label>
+          </div>
+
+          <!-- Opcje ptaszka -->
+          <div class="tool-group tool-check-opts" id="checkOpts" hidden>
+            <button class="check-sym active" data-sym="✓" title="Ptaszek" aria-pressed="true">✓</button>
+            <button class="check-sym" data-sym="✗" title="Krzyżyk" aria-pressed="false">✗</button>
+            <button class="check-sym" data-sym="●" title="Kółko" aria-pressed="false">●</button>
+          </div>
+
+          <div class="tool-sep"></div>
+
+          <div class="tool-group">
+            <button class="tool-btn" id="btnUndo" title="Cofnij ostatnią operację (Ctrl+Z)"
+                    aria-label="Cofnij">
+              <span class="ti ti-arrow-back-up" aria-hidden="true"></span>
+              <span class="tool-label">Cofnij</span>
+            </button>
+          </div>
+
+          <div class="tool-sep"></div>
+
+          <div class="tool-group">
+            <button class="btn btn-primary btn-sm" id="btnDownload">
+              <span class="ti ti-file-download" aria-hidden="true"></span>
+              Pobierz PDF
+            </button>
+          </div>
+
+          <div class="tool-group tool-right">
+            <button class="btn btn-ghost btn-sm" id="btnClose">
+              <span class="ti ti-x" aria-hidden="true"></span>
+              Zamknij
+            </button>
+          </div>
+        </div>
+
+        <!-- Podgląd stron -->
+        <div class="pages-wrap" id="pagesWrap">
+          <div class="pages-inner" id="pagesInner"></div>
+        </div>
+
+        <!-- Pasek statusu -->
+        <div class="status-bar" id="statusBar">
+          <span id="statusText">Kliknij w dokument, żeby dodać element.</span>
+        </div>
+
+      </div><!-- /workspace -->
+
+      <!-- Sekcja wyjaśniająca -->
+      <div class="explainer">
+        <h2>Koniec z drukowaniem i skanowaniem</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Dokument nie wychodzi</h3>
+            <p>Wypełnianie i podpisywanie odbywa się w Twojej przeglądarce. Żaden bajt umowy nie trafia na zewnętrzny serwer. To realna przewaga Aizyl Tools nad darmowymi narzędziami online.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-writing-sign" aria-hidden="true"></span>
+            <h3>Podpis zapisany lokalnie</h3>
+            <p>Narysuj podpis raz, ten zostaje w przeglądarce na Twoim komputerze. Przy następnym dokumencie jest już gotowy. Możesz go usunąć w każdej chwili.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-forms" aria-hidden="true"></span>
+            <h3>Formularze i skany</h3>
+            <p>Jeśli PDF ma prawdziwe pola formularza, zostaną wykryte i podświetlone. Ale swobodne klikanie działa na każdym dokumencie, nawet na skanach bez pól.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-file-check" aria-hidden="true"></span>
+            <h3>Trwale wtopione</h3>
+            <p>Wszystko, co dodasz: tekst, podpis, daty, jest trwale wbudowane w plik wynikowy. Odbiorca nie może tego przesunąć ani usunąć.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Podpisywanie jest w pełni lokalne.</strong> Biblioteki PDF.js i pdf-lib działają bezpośrednio
+        w przeglądarce. Żadne dane nie opuszczają Twojego komputera. Zapisany podpis przechowywany jest
+        wyłącznie w localStorage tej przeglądarki i nigdzie nie jest wysyłany.
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <!-- Modal: rysowanie / wgrywanie podpisu -->
+  <div class="modal-overlay" id="signModal" hidden role="dialog"
+       aria-modal="true" aria-labelledby="signModalTitle">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="signModalTitle">Podpis</h2>
+        <button class="modal-close" id="signModalClose" aria-label="Zamknij">
+          <span class="ti ti-x" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <div class="modal-tabs" role="tablist">
+        <button class="modal-tab active" id="tabDraw" role="tab"
+                aria-selected="true" aria-controls="paneDraw">Rysuj</button>
+        <button class="modal-tab" id="tabUpload" role="tab"
+                aria-selected="false" aria-controls="paneUpload">Wgraj zdjęcie</button>
+      </div>
+
+      <!-- Panel: rysowanie -->
+      <div class="modal-pane" id="paneDraw" role="tabpanel" aria-labelledby="tabDraw">
+        <div class="sig-canvas-wrap">
+          <canvas id="sigCanvas" aria-label="Obszar rysowania podpisu"></canvas>
+          <span class="sig-hint" id="sigHint">Narysuj podpis tutaj</span>
+        </div>
+        <div class="sig-actions">
+          <button class="btn btn-ghost btn-sm" id="btnSigClear">
+            <span class="ti ti-eraser" aria-hidden="true"></span> Wyczyść
+          </button>
+        </div>
+      </div>
+
+      <!-- Panel: wgrywanie -->
+      <div class="modal-pane" id="paneUpload" role="tabpanel"
+           aria-labelledby="tabUpload" hidden>
+        <div class="upload-drop" id="sigUploadDrop" tabindex="0"
+             role="button" aria-label="Wgraj zdjęcie podpisu">
+          <span class="ti ti-photo-up" aria-hidden="true"></span>
+          <p>Przeciągnij zdjęcie podpisu lub kliknij</p>
+          <p class="dz-sub">Białe tło zostanie zamienione na przezroczyste</p>
+        </div>
+        <input type="file" id="sigImagePicker" hidden accept="image/*" />
+        <canvas id="sigPreviewCanvas" class="sig-preview-canvas" hidden
+                aria-label="Podgląd wgranego podpisu"></canvas>
+      </div>
+
+      <div class="modal-footer">
+        <label class="save-sig-label">
+          <input type="checkbox" id="chkSaveSig" checked />
+          Zapamiętaj podpis na tym komputerze
+        </label>
+        <div class="modal-footer-btns">
+          <button class="btn btn-ghost btn-sm" id="btnSigCancel">Anuluj</button>
+          <button class="btn btn-primary btn-sm" id="btnSigConfirm">Wstaw podpis</button>
+        </div>
+      </div>
+
+      <!-- Zapisany podpis -->
+      <div class="saved-sig-row" id="savedSigRow" hidden>
+        <span class="saved-sig-label">
+          <span class="ti ti-device-floppy" aria-hidden="true"></span>
+          Masz zapisany podpis
+        </span>
+        <button class="btn btn-ghost btn-sm" id="btnUseSaved">Użyj zapisanego</button>
+        <button class="btn btn-ghost btn-sm btn-danger-ghost" id="btnDeleteSaved">
+          <span class="ti ti-trash" aria-hidden="true"></span> Usuń
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="/shared/layout.js"></script>
+  <script src="./sign.js"></script>
+</body>
+</html>

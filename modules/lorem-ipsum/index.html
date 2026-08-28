@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Generuj tekst zastepczy do projektow i makiet. Wybierz liczbe akapitow lub slow. Dziala lokalnie." />
+  <title>Lorem Ipsum | Narzedzia Aizyl</title>
+  <meta property="og:title" content="Lorem Ipsum - Aizyl" />
+  <meta property="og:description" content="Generuj tekst zastepczy lokalnie w przegladarce." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/lorem-ipsum/" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./lorem-ipsum.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzedzia</a>
+        <h1>Lorem Ipsum</h1>
+        <p>Generuj tekst zastepczy do projektow, makiet i testow. Wybierz tryb i ilosc.</p>
+        <span class="pill"><span class="dot"></span> Dziala lokalnie w przegladarce</span>
+      </div>
+
+      <div class="workspace">
+
+        <div class="controls-card">
+          <div class="control-row">
+            <div class="control-group">
+              <p class="quality-label">Tryb generowania</p>
+              <div class="mode-grid">
+                <button class="mode-btn active" data-mode="paragraphs">
+                  <span class="ti ti-align-left qb-icon" aria-hidden="true"></span>
+                  <span class="qb-title">Akapity</span>
+                </button>
+                <button class="mode-btn" data-mode="sentences">
+                  <span class="ti ti-minus qb-icon" aria-hidden="true"></span>
+                  <span class="qb-title">Zdania</span>
+                </button>
+                <button class="mode-btn" data-mode="words">
+                  <span class="ti ti-letter-t qb-icon" aria-hidden="true"></span>
+                  <span class="qb-title">Slowa</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <p class="quality-label">Ilosc</p>
+              <div class="amount-row">
+                <button class="amount-btn" id="btnMinus">
+                  <span class="ti ti-minus" aria-hidden="true"></span>
+                </button>
+                <input class="amount-input" type="number" id="amountInput" value="3" min="1" max="100" />
+                <button class="amount-btn" id="btnPlus">
+                  <span class="ti ti-plus" aria-hidden="true"></span>
+                </button>
+              </div>
+            </div>
+
+            <div class="control-group control-group-btn">
+              <button class="btn btn-primary" id="btnGenerate">
+                <span class="ti ti-refresh" aria-hidden="true"></span>
+                Generuj
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="result-card" id="resultCard">
+          <div class="result-label">Wygenerowany tekst</div>
+          <div class="result-text" id="resultText"></div>
+          <div class="action-bar">
+            <button class="btn btn-primary" id="btnCopy">
+              <span class="ti ti-copy" aria-hidden="true"></span>
+              Kopiuj tekst
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="explainer">
+        <h2>Do czego przydaje sie Lorem Ipsum</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-layout" aria-hidden="true"></span>
+            <h3>Makiety i projekty</h3>
+            <p>Wypelnij makiete tekstem zastepczym zeby skupic sie na layoucie, nie tresci.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-printer" aria-hidden="true"></span>
+            <h3>Testy druku</h3>
+            <p>Sprawdz jak wyglada wydruk dokumentu zanim wstawisz wlasciwa tresc.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-code" aria-hidden="true"></span>
+            <h3>Testy aplikacji</h3>
+            <p>Uzywaj losowego tekstu do testowania komponentow i interfejsow uzytkownika.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Wszystko lokalnie</h3>
+            <p>Tekst generowany jest w Twojej przegladarce. Zadnych serwerow, zadnego sledzenia.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <script src="/shared/layout.js"></script>
+  <script src="./lorem-ipsum.js"></script>
+</body>
+</html>

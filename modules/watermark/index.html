@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Dodaj tekstowy znak wodny do każdej strony PDF. Lokalnie, bez wysyłania pliku na serwer." />
+  <title>Znak wodny PDF | Narzędzia Aizyl</title>
+
+  <meta property="og:title" content="Znak wodny PDF — Aizyl" />
+  <meta property="og:description" content="Dodaj znak wodny do PDF. Plik nie opuszcza Twojej przeglądarki." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/watermark/" />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./watermark.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzędzia</a>
+        <h1>Znak wodny PDF</h1>
+        <p>Dodaj tekstowy znak wodny do każdej strony dokumentu. Plik nie opuszcza Twojej przeglądarki.</p>
+        <span class="pill"><span class="dot"></span> Pliki zostają na tym komputerze</span>
+      </div>
+
+      <div class="dropzone" id="dropzone" tabindex="0" role="button"
+           aria-label="Wybierz plik PDF do znakowania">
+        <span class="ti ti-droplet dz-icon" aria-hidden="true"></span>
+        <p class="dz-title">Przeciągnij plik PDF tutaj</p>
+        <p class="dz-sub">albo kliknij, żeby wybrać · jeden plik PDF</p>
+      </div>
+      <input type="file" id="picker" hidden accept="application/pdf,.pdf" />
+
+      <div class="workspace" id="workspace" hidden>
+
+        <div class="file-info" id="fileInfo"></div>
+
+        <div class="controls-panel">
+          <div class="ctrl-row">
+            <div class="ctrl-group ctrl-group-wide">
+              <label class="ctrl-label" for="inputText">Treść znaku wodnego</label>
+              <input type="text" class="ctrl-input" id="inputText" value="POUFNE" maxlength="60"
+                     placeholder="np. POUFNE, SZKIC, DO WEWNĘTRZNEGO UŻYTKU" />
+            </div>
+            <div class="ctrl-group">
+              <label class="ctrl-label" for="inputColor">Kolor</label>
+              <input type="color" class="ctrl-color" id="inputColor" value="#888888" />
+            </div>
+          </div>
+
+          <div class="ctrl-row">
+            <div class="ctrl-group">
+              <label class="ctrl-label">
+                Rozmiar czcionki
+                <span class="ctrl-val" id="valSize">52</span>
+              </label>
+              <input type="range" class="ctrl-slider" id="inputSize"
+                     min="18" max="96" value="52" />
+            </div>
+            <div class="ctrl-group">
+              <label class="ctrl-label">
+                Przezroczystość
+                <span class="ctrl-val" id="valOpacity">30%</span>
+              </label>
+              <input type="range" class="ctrl-slider" id="inputOpacity"
+                     min="5" max="80" value="30" />
+            </div>
+            <div class="ctrl-group">
+              <label class="ctrl-label">
+                Kąt
+                <span class="ctrl-val" id="valAngle">45°</span>
+              </label>
+              <input type="range" class="ctrl-slider" id="inputAngle"
+                     min="-90" max="90" value="45" />
+            </div>
+          </div>
+          <div class="ctrl-row">
+            <div class="ctrl-group">
+              <label class="ctrl-label">
+                Pozycja pozioma
+                <span class="ctrl-val" id="valX">50%</span>
+              </label>
+              <input type="range" class="ctrl-slider" id="inputX"
+                     min="0" max="100" value="50" />
+            </div>
+            <div class="ctrl-group">
+              <label class="ctrl-label">
+                Pozycja pionowa
+                <span class="ctrl-val" id="valY">50%</span>
+              </label>
+              <input type="range" class="ctrl-slider" id="inputY"
+                     min="0" max="100" value="50" />
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-wrap" id="previewWrap" hidden>
+          <p class="preview-label">Podgląd pierwszej strony</p>
+          <canvas class="preview-canvas" id="previewCanvas"></canvas>
+        </div>
+
+        <div class="page-select-panel">
+          <p class="ctrl-label" style="margin:0 0 10px;">Które strony</p>
+          <div class="page-radios">
+            <label class="radio-label">
+              <input type="radio" name="pageMode" value="all" checked /> Wszystkie strony
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="pageMode" value="first" /> Tylko pierwsza
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="pageMode" value="custom" /> Wybrana strona
+              <input type="number" class="ctrl-input page-num-input" id="inputPageNum"
+                     min="1" value="1" disabled placeholder="nr" />
+            </label>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary" id="btnApply">
+            <span class="ti ti-droplet" aria-hidden="true"></span>
+            Dodaj znak wodny i pobierz
+          </button>
+          <button class="btn btn-ghost btn-sm" id="btnNewFile">
+            <span class="ti ti-folder-open" aria-hidden="true"></span> Inny plik
+          </button>
+          <span class="action-status" id="actionStatus"></span>
+        </div>
+
+        <div class="presets-panel">
+          <p class="ctrl-label" style="margin:0 0 10px;">Zapisane presety</p>
+          <div class="preset-save-row">
+            <input type="text" class="ctrl-input preset-name-input" id="inputPresetName"
+                   placeholder="Nazwa presetu" maxlength="40" />
+            <button class="btn btn-ghost btn-sm" id="btnSavePreset">
+              <span class="ti ti-bookmark-plus" aria-hidden="true"></span> Zapisz
+            </button>
+          </div>
+          <div class="preset-list" id="presetList"></div>
+        </div>
+
+      </div>
+
+      <div class="explainer">
+        <h2>Do czego służy znak wodny</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-eye-off" aria-hidden="true"></span>
+            <h3>Oznacz dokumenty poufne</h3>
+            <p>Dodaj napis POUFNE lub SZKIC przed wysłaniem wersji roboczej. Odbiorca od razu widzi status dokumentu.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-user-check" aria-hidden="true"></span>
+            <h3>Identyfikuj odbiorcę</h3>
+            <p>Wyślij każdemu inną wersję z jego nazwiskiem jako znakiem wodnym. Jeśli dokument wycieknie, wiesz skąd.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-copyright" aria-hidden="true"></span>
+            <h3>Chroń swoje materiały</h3>
+            <p>Oznacz prezentacje, raporty i grafiki swoją nazwą lub domeną zanim udostępnisz je publicznie.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Wszystko lokalnie</h3>
+            <p>Znak wodny jest nakładany w Twojej przeglądarce. Dokument nie trafia na żaden zewnętrzny serwer.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="/shared/layout.js"></script>
+  <script src="./watermark.js"></script>
+</body>
+</html>

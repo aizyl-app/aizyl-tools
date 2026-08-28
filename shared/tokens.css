@@ -1,0 +1,33 @@
+/* Tokeny przeniesione 1:1 z aizyl.pl/style.css — nie zmieniaj tu wartości
+   bez zmiany na stronie głównej, inaczej marka zacznie się rozjeżdżać. */
+:root {
+  --background:        #E8E6E1;
+  --card:              #F5F4F1;
+  --primary:           #0B6951;
+  --foreground:        #1A1A1A;
+  --muted-foreground:  #6B7280;
+  --border:            #D4D1CB;
+  --secondary:         #D4D1CB;
+  --radius:            0.25rem;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --font-base: 'Space Grotesk', sans-serif;
+
+  /* dodatki tylko dla Tools — nie występują na aizyl.pl */
+  --primary-soft:      #DDEBE6;
+  --danger:            #8C2438;
+  --danger-soft:       #F4DFE3;
+  --shadow-md: 0 2px 6px rgba(0,0,0,.07), 0 12px 28px -20px rgba(0,0,0,.35);
+}
+
+/* Warstwa wyłącznie dla Aizyl Tools. Nie przenoś na aizyl.pl bez osobnej decyzji. */
+:root {
+  --radius-card: 0.75rem;
+  --secondary:  #e2e8e9;
+  --card-glass: rgba(248, 246, 241, 0.72);
+  --border-soft: rgba(212, 209, 203, 0.68);
+  --shadow-soft: 0 1px 2px rgba(26,26,26,.04), 0 8px 20px -12px rgba(26,26,26,.20);
+  --shadow-lift: 0 2px 5px rgba(26,26,26,.05), 0 20px 40px -22px rgba(26,26,26,.30);
+  --glow-green: rgba(11, 105, 82, 0.20);
+  --glow-rose:  rgba(198, 146, 164, 0.40);
+  --glow-blue:  rgba(138, 167, 196, 0.40);
+}

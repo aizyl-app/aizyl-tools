@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Usuń tło ze zdjęcia. Model AI działa lokalnie w przeglądarce, plik nie opuszcza komputera." />
+  <title>Usuń tło | Narzędzia Aizyl</title>
+
+  <meta property="og:title" content="Usuń tło – Aizyl" />
+  <meta property="og:description" content="Usuń tło ze zdjęcia. Model AI działa lokalnie." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/remove-bg/" />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./remove-bg.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzędzia</a>
+        <h1>Usuń tło</h1>
+        <p>Wytnij obiekt lub osobę ze zdjęcia. Model AI działa lokalnie w Twojej przeglądarce. Plik nie opuszcza komputera.</p>
+        <span class="pill"><span class="dot"></span> Plik zostaje na tym komputerze</span>
+      </div>
+
+      <div class="rb-first-use">
+        <span class="ti ti-info-circle" aria-hidden="true"></span>
+        <span>Przy pierwszym użyciu przeglądarka pobierze model AI (~50 MB). Potem działa bez internetu.</span>
+      </div>
+
+      <div class="dropzone" id="dropzone" tabindex="0" role="button"
+           aria-label="Wybierz zdjęcie do usunięcia tła">
+        <span class="ti ti-cut dz-icon" aria-hidden="true"></span>
+        <p class="dz-title">Przeciągnij zdjęcie tutaj</p>
+        <p class="dz-sub">albo kliknij, żeby wybrać · JPG, PNG, WebP</p>
+      </div>
+      <input type="file" id="picker" hidden accept="image/*" />
+
+      <div class="workspace" id="workspace" hidden>
+
+        <div class="rb-progress" id="rbProgress" style="display:none">
+          <div class="lp-bar"><div class="lp-fill" id="rbFill"></div></div>
+          <span class="lp-label" id="rbLabel">Inicjalizuję model…</span>
+        </div>
+
+        <div class="rb-viewer" id="rbViewer" hidden>
+          <div class="rb-panels">
+            <div class="rb-panel">
+              <div class="rb-panel-label">Oryginał</div>
+              <div class="rb-img-wrap">
+                <img id="origImg" alt="Oryginalne zdjęcie" />
+              </div>
+            </div>
+            <div class="rb-panel">
+              <div class="rb-panel-label">Bez tła</div>
+              <div class="rb-img-wrap rb-checker">
+                <img id="resultImg" alt="Zdjęcie bez tła" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rd-save-bar">
+          <button class="btn btn-primary" id="btnRemove">
+            <span class="ti ti-cut" aria-hidden="true"></span>
+            Usuń tło
+          </button>
+          <button class="btn btn-ghost btn-sm" id="btnDownload" disabled>
+            <span class="ti ti-file-download" aria-hidden="true"></span>
+            Pobierz PNG
+          </button>
+          <button class="btn btn-ghost btn-sm" id="btnChangeFile">
+            <span class="ti ti-refresh" aria-hidden="true"></span>
+            Zmień zdjęcie
+          </button>
+          <span class="rd-save-info" id="saveInfo"></span>
+        </div>
+
+      </div>
+
+      <div class="explainer">
+        <h2>Jak to działa</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-brain" aria-hidden="true"></span>
+            <h3>Model AI lokalnie</h3>
+            <p>Biblioteka IMGLY Background Removal uruchamia model segmentacji w Twojej przeglądarce. Zero chmury.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-user" aria-hidden="true"></span>
+            <h3>Ludzie i obiekty</h3>
+            <p>Działa najlepiej na zdjęciach portretowych, produktach na jednolitym tle i wyraźnych sylwetkach.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-file-type-png" aria-hidden="true"></span>
+            <h3>Wynik jako PNG</h3>
+            <p>Pobierasz plik PNG z przezroczystym tłem. Gotowy do wklejenia w prezentację, sklep lub grafikę.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Plik nie wychodzi</h3>
+            <p>Model działa w całości w przeglądarce. Żadne zdjęcie nie jest wysyłane na zewnętrzny serwer.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Model AI (~50 MB) jest pobierany raz przy pierwszym użyciu</strong> i przechowywany
+        w pamięci podręcznej przeglądarki. Kolejne użycia są natychmiastowe i nie wymagają internetu.
+        Żadne zdjęcie nie opuszcza Twojego komputera.
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <script type="module" src="./remove-bg.js"></script>
+  <script src="/shared/layout.js"></script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Wyciągnij tekst ze skanów i zdjęć w PDF. OCR działa lokalnie w przeglądarce, plik nie opuszcza Twojego komputera." />
+  <title>OCR PDF | Narzędzia Aizyl</title>
+
+  <meta property="og:title" content="OCR PDF – Aizyl" />
+  <meta property="og:description" content="Rozpoznaj tekst w skanach PDF. Działa lokalnie." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/ocr/" />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./ocr.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzędzia</a>
+        <h1>OCR PDF</h1>
+        <p>Rozpoznaj tekst ze skanów i zdjęć w dokumencie PDF. Wynik możesz skopiować lub pobrać jako plik tekstowy. Wszystko działa lokalnie.</p>
+        <span class="pill"><span class="dot"></span> Plik zostaje na tym komputerze</span>
+      </div>
+
+      <div class="dropzone" id="dropzone" tabindex="0" role="button"
+           aria-label="Wybierz plik PDF do rozpoznania tekstu">
+        <span class="ti ti-text-recognition dz-icon" aria-hidden="true"></span>
+        <p class="dz-title">Przeciągnij plik PDF tutaj</p>
+        <p class="dz-sub">albo kliknij, żeby wybrać · najlepiej działa na skanach i zdjęciach dokumentów</p>
+      </div>
+      <input type="file" id="picker" hidden accept="application/pdf,.pdf" />
+
+      <div class="load-progress" id="loadProgress" style="display:none">
+        <div class="lp-bar"><div class="lp-fill" id="lpFill"></div></div>
+        <span class="lp-label" id="lpLabel">Wczytuję…</span>
+      </div>
+
+      <div class="workspace" id="workspace" hidden>
+
+        <div class="ocr-toolbar">
+          <div class="ocr-info">
+            <span class="ws-count" id="wsCount"></span>
+          </div>
+          <div class="ocr-controls">
+            <label class="opt-label" for="langSelect">Język:</label>
+            <select class="ocr-select" id="langSelect">
+              <option value="pol">Polski</option>
+              <option value="eng">Angielski</option>
+              <option value="pol+eng">Polski + Angielski</option>
+            </select>
+            <button class="btn btn-primary" id="btnRun">
+              <span class="ti ti-text-recognition" aria-hidden="true"></span>
+              Rozpoznaj tekst
+            </button>
+            <button class="btn btn-ghost btn-sm" id="btnChangeFile">
+              <span class="ti ti-refresh" aria-hidden="true"></span> Zmień plik
+            </button>
+          </div>
+        </div>
+
+        <div class="ocr-progress" id="ocrProgress" style="display:none">
+          <div class="lp-bar"><div class="lp-fill" id="ocrFill"></div></div>
+          <span class="lp-label" id="ocrLabel">Przygotowuję…</span>
+        </div>
+
+        <div class="ocr-result" id="ocrResult" hidden>
+          <div class="ocr-result-toolbar">
+            <span class="ocr-result-title">Rozpoznany tekst</span>
+            <div class="ocr-result-actions">
+              <button class="btn btn-ghost btn-sm" id="btnCopy">
+                <span class="ti ti-copy" aria-hidden="true"></span> Kopiuj
+              </button>
+              <button class="btn btn-ghost btn-sm" id="btnDownloadTxt">
+                <span class="ti ti-file-download" aria-hidden="true"></span> Pobierz .txt
+              </button>
+            </div>
+          </div>
+          <div class="ocr-text" id="ocrText"></div>
+        </div>
+
+      </div>
+
+      <div class="explainer">
+        <h2>Kiedy OCR się przydaje</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-scan" aria-hidden="true"></span>
+            <h3>Skany dokumentów</h3>
+            <p>Umowy, faktury i pisma zeskanowane jako obrazy. OCR wyciągnie z nich tekst do przeszukiwania i edycji.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-camera" aria-hidden="true"></span>
+            <h3>Zdjęcia dokumentów</h3>
+            <p>Zdjęcia zrobione telefonem zamiast skanowania. OCR radzi sobie nawet z lekko przekrzywionymi stronami.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-search" aria-hidden="true"></span>
+            <h3>Tekst do przeszukiwania</h3>
+            <p>Wyeksportuj tekst i wklej go do dokumentu Word, arkusza lub wyszukiwarki plików.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Plik nie wychodzi</h3>
+            <p>Model OCR działa w Twojej przeglądarce. Żadna strona dokumentu nie trafia na zewnętrzny serwer.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>OCR działa lokalnie.</strong> Silnik Tesseract.js uruchamia się bezpośrednio w przeglądarce.
+        Model językowy (~10 MB) jest pobierany raz przy pierwszym użyciu i przechowywany w pamięci podręcznej przeglądarki.
+        Żaden fragment dokumentu nie opuszcza Twojego komputera.
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script src="/shared/layout.js"></script>
+  <script src="./ocr.js"></script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Zamień strony PDF na obrazy JPG, PNG lub WebP. Lokalnie, bez wysyłania pliku na serwer." />
+  <title>PDF na obraz | Narzędzia Aizyl</title>
+
+  <meta property="og:title" content="PDF na obraz — Aizyl" />
+  <meta property="og:description" content="Zamień strony PDF na obrazy. Plik nie opuszcza Twojej przeglądarki." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/pdf-to-image/" />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./pdf-to-image.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzędzia</a>
+        <h1>PDF na obraz</h1>
+        <p>Zaznacz strony które chcesz wyeksportować i pobierz je jako JPG, PNG lub WebP. Plik nie opuszcza Twojej przeglądarki.</p>
+        <span class="pill"><span class="dot"></span> Pliki zostają na tym komputerze</span>
+      </div>
+
+      <div class="dropzone" id="dropzone" tabindex="0" role="button"
+           aria-label="Wybierz plik PDF do konwersji">
+        <span class="ti ti-photo-scan dz-icon" aria-hidden="true"></span>
+        <p class="dz-title">Przeciągnij plik PDF tutaj</p>
+        <p class="dz-sub">albo kliknij, żeby wybrać · jeden plik PDF</p>
+      </div>
+      <input type="file" id="picker" hidden accept="application/pdf,.pdf" />
+
+      <div class="load-progress" id="loadProgress" hidden>
+        <div class="lp-bar"><div class="lp-fill" id="lpFill"></div></div>
+        <span class="lp-label" id="lpLabel">Wczytuję strony...</span>
+      </div>
+
+      <div class="workspace" id="workspace" hidden>
+
+        <div class="ws-toolbar">
+          <span class="ws-count" id="wsCount"></span>
+          <div class="ws-actions">
+            <button class="btn btn-ghost btn-sm" id="btnSelectAll">Zaznacz wszystkie</button>
+            <button class="btn btn-ghost btn-sm" id="btnSelectNone">Odznacz wszystkie</button>
+            <button class="btn btn-ghost btn-sm" id="btnNewFile">
+              <span class="ti ti-folder-open" aria-hidden="true"></span> Inny plik
+            </button>
+          </div>
+        </div>
+
+        <div class="page-grid" id="pageGrid" role="list"
+             aria-label="Strony dokumentu — kliknij, żeby zaznaczyć"></div>
+
+        <div class="export-panel">
+          <div class="export-options">
+            <div class="option-group">
+              <p class="option-label">Format</p>
+              <div class="format-btns" role="group">
+                <button class="format-btn active" data-fmt="jpeg">JPG</button>
+                <button class="format-btn" data-fmt="png">PNG</button>
+                <button class="format-btn" data-fmt="webp">WebP</button>
+              </div>
+            </div>
+            <div class="option-group" id="qualityGroup">
+              <label class="option-label">
+                Jakość
+                <span class="ctrl-val" id="valQuality">90%</span>
+              </label>
+              <input type="range" class="ctrl-slider" id="inputQuality"
+                     min="10" max="100" value="90" />
+            </div>
+            <div class="option-group">
+              <p class="option-label">Skala</p>
+              <div class="scale-btns" role="group">
+                <button class="scale-btn" data-scale="1">1x</button>
+                <button class="scale-btn" data-scale="1.5">1.5x</button>
+                <button class="scale-btn active" data-scale="2">2x</button>
+                <button class="scale-btn" data-scale="3">3x</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="export-bar">
+            <button class="btn btn-primary" id="btnDownload">
+              <span class="ti ti-photo-down" aria-hidden="true"></span>
+              <span id="btnDownloadLabel">Pobierz obrazy</span>
+            </button>
+            <span class="export-status" id="exportStatus"></span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="explainer">
+        <h2>Kiedy przydaje się konwersja PDF na obraz</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-brand-instagram" aria-hidden="true"></span>
+            <h3>Social media i prezentacje</h3>
+            <p>Wyeksportuj slajdy lub strony jako obrazy gotowe do wklejenia w prezentację lub wrzucenia na media społecznościowe.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-mail" aria-hidden="true"></span>
+            <h3>Podgląd w wiadomości</h3>
+            <p>Wklej stronę dokumentu bezpośrednio do e-maila lub wiadomości zamiast wysyłać cały plik jako załącznik.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-chart-bar" aria-hidden="true"></span>
+            <h3>Wykresy i tabele</h3>
+            <p>Wyciągnij konkretną stronę z raportu jako obraz i użyj go w prezentacji lub dokumencie Word.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-lock" aria-hidden="true"></span>
+            <h3>Wszystko lokalnie</h3>
+            <p>Konwersja odbywa się w Twojej przeglądarce. Dokument nie trafia na żaden zewnętrzny serwer.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <template id="pageTpl">
+    <div class="page-card" role="listitem">
+      <div class="pc-thumb-wrap">
+        <canvas class="pc-canvas"></canvas>
+        <div class="pc-spinner" aria-hidden="true"></div>
+        <div class="pc-check-badge" aria-hidden="true">
+          <span class="ti ti-check"></span>
+        </div>
+      </div>
+      <div class="pc-meta">
+        <span class="pc-num"></span>
+      </div>
+    </div>
+  </template>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="/shared/layout.js"></script>
+  <script src="./pdf-to-image.js"></script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Zmień rozmiar zdjęć. Podaj wymiary w pikselach lub procent. Wiele plików naraz. Lokalnie w przeglądarce." />
+  <title>Zmiana rozmiaru obrazu | Narzędzia Aizyl</title>
+
+  <meta property="og:title" content="Zmiana rozmiaru obrazu – Aizyl" />
+  <meta property="og:description" content="Zmień rozmiar zdjęć. Lokalnie, bez wysyłania plików." />
+  <meta property="og:image" content="https://aizyl.pl/assets/og-image.png" />
+  <meta property="og:url" content="https://tools.aizyl.pl/modules/resize-image/" />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" type="image/png" href="https://aizyl.pl/assets/aizyl_logo_noactive.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+
+  <link rel="stylesheet" href="/shared/tokens.css" />
+  <link rel="stylesheet" href="/shared/aizyl-base.css" />
+  <link rel="stylesheet" href="/shared/layout.css" />
+  <link rel="stylesheet" href="./resize-image.css" />
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="125df032-1dbb-48d3-8598-e869152e4a63"></script>
+</head>
+<body>
+
+  <div id="aizyl-nav"></div>
+
+  <main class="main">
+    <div class="container">
+
+      <div class="mod-head">
+        <a class="back" href="/"><span class="ti ti-arrow-left" aria-hidden="true"></span> Narzędzia</a>
+        <h1>Zmiana rozmiaru obrazu</h1>
+        <p>Zmniejsz zdjęcia do konkretnych wymiarów lub procentu oryginału. Wiele plików naraz. Wszystko lokalnie.</p>
+        <span class="pill"><span class="dot"></span> Pliki zostają na tym komputerze</span>
+      </div>
+
+      <div class="dropzone" id="dropzone" tabindex="0" role="button"
+           aria-label="Wybierz obrazy do zmiany rozmiaru">
+        <span class="ti ti-arrows-minimize dz-icon" aria-hidden="true"></span>
+        <p class="dz-title">Przeciągnij zdjęcia tutaj</p>
+        <p class="dz-sub">albo kliknij, żeby wybrać · JPG, PNG, WebP · możesz wrzucić kilka naraz</p>
+      </div>
+      <input type="file" id="picker" hidden multiple accept="image/*" />
+
+      <div class="workspace" id="workspace" hidden>
+
+        <div class="resize-options">
+          <div class="resize-mode">
+            <span class="opt-label">Tryb:</span>
+            <div class="format-btns" role="group">
+              <button class="fmt-btn active" data-mode="percent">Procent</button>
+              <button class="fmt-btn" data-mode="pixels">Piksele</button>
+            </div>
+          </div>
+
+          <div class="resize-inputs" id="percentInputs">
+            <label class="opt-label" for="percentVal">
+              Skala: <strong id="percentDisplay">50</strong>%
+            </label>
+            <input type="range" id="percentVal" min="1" max="200" value="50" step="1" />
+          </div>
+
+          <div class="resize-inputs" id="pixelInputs" style="display:none">
+            <div class="px-fields">
+              <label class="px-field">
+                <span class="opt-label">Szerokość</span>
+                <div class="px-input-wrap">
+                  <input type="number" id="pxWidth" min="1" max="16000" placeholder="px" />
+                </div>
+              </label>
+              <span class="px-lock ti ti-lock" id="lockAspect" title="Zachowaj proporcje" aria-label="Zachowaj proporcje"></span>
+              <label class="px-field">
+                <span class="opt-label">Wysokość</span>
+                <div class="px-input-wrap">
+                  <input type="number" id="pxHeight" min="1" max="16000" placeholder="px" />
+                </div>
+              </label>
+            </div>
+            <label class="opt-checkbox">
+              <input type="checkbox" id="keepAspect" checked />
+              Zachowaj proporcje
+            </label>
+          </div>
+
+          <div class="resize-fmt">
+            <span class="opt-label">Format:</span>
+            <div class="format-btns" role="group">
+              <button class="fmt-btn active" data-fmt="image/jpeg" data-ext="jpg">JPG</button>
+              <button class="fmt-btn" data-fmt="image/png" data-ext="png">PNG</button>
+              <button class="fmt-btn" data-fmt="image/webp" data-ext="webp">WebP</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="ws-toolbar">
+          <span class="ws-count" id="wsCount"></span>
+          <div class="ws-actions">
+            <button class="btn btn-ghost btn-sm" id="btnAddMore">
+              <span class="ti ti-plus" aria-hidden="true"></span> Dodaj
+            </button>
+            <button class="btn btn-ghost btn-sm" id="btnClear">
+              <span class="ti ti-trash" aria-hidden="true"></span> Wyczyść
+            </button>
+          </div>
+        </div>
+
+        <div class="img-grid" id="imgGrid" role="list"></div>
+
+        <div class="merge-bar">
+          <button class="btn btn-primary" id="btnResize">
+            <span class="ti ti-file-download" aria-hidden="true"></span>
+            Zmień rozmiar i pobierz
+          </button>
+          <span class="merge-info" id="resizeInfo"></span>
+        </div>
+
+      </div>
+
+      <div class="explainer">
+        <h2>Kiedy zmiana rozmiaru się przydaje</h2>
+        <div class="ex-grid">
+          <div class="ex-item">
+            <span class="ti ti-mail" aria-hidden="true"></span>
+            <h3>Wysyłka emailem</h3>
+            <p>Zdjęcia z aparatu mają po 5–20 MB. Zmniejsz je do 1200px szerokości przed wysłaniem.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-world" aria-hidden="true"></span>
+            <h3>Strona internetowa</h3>
+            <p>Każdy szablon www ma swoje wymiary. Dopasuj zdjęcia do wymaganych proporcji i pikseli.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-photo" aria-hidden="true"></span>
+            <h3>Thumbnail i miniatura</h3>
+            <p>Zrób małą wersję zdjęcia do podglądu. Ustaw konkretne wymiary w pikselach.</p>
+          </div>
+          <div class="ex-item">
+            <span class="ti ti-stack" aria-hidden="true"></span>
+            <h3>Wiele plików naraz</h3>
+            <p>Wrzuć całą serię zdjęć. Wszystkie zostaną przeskalowane i spakowane do ZIP.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Zmiana rozmiaru jest w pełni lokalna.</strong> Canvas API przetwarza obrazy
+        bezpośrednio w przeglądarce. Żaden plik nie opuszcza Twojego komputera.
+      </div>
+
+    </div>
+  </main>
+
+  <div id="aizyl-footer"></div>
+
+  <template id="imgCardTpl">
+    <div class="img-card" role="listitem">
+      <div class="ic-thumb-wrap">
+        <img class="ic-img" alt="" />
+        <button class="ic-del" aria-label="Usuń obraz">
+          <span class="ti ti-x" aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="ic-meta">
+        <span class="ic-name"></span>
+        <span class="ic-dims"></span>
+      </div>
+    </div>
+  </template>
+
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="/shared/layout.js"></script>
+  <script src="./resize-image.js"></script>
+</body>
+</html>
