@@ -8,16 +8,15 @@
   var DOWNLOAD = 'https://get.microsoft.com/installer/download/9NH3FKDG823D';
 
   var NAV_LINKS = [
-    { label: 'Aizyl Tools',     href: '/' },
-    { label: 'Aizyl DLP',    href: SITE + '/' },
-    { label: 'Jak to działa', href: SITE + '/jak-to-dziala' },
-    { label: 'Realne ryzyka', href: SITE + '/realne-ryzyka' }
+    { label: 'Strona główna',  href: SITE + '/' },
+    { label: 'Aizyl Asystent', href: SITE + '/asystent/' },
+    { label: 'Aizyl DLP',      href: SITE + '/dlp/' },
+    { label: 'Aizyl Tools',    href: '/' }
   ];
 
   var FOOTER_LINKS = [
     { label: 'Polityka prywatności', href: SITE + '/polityka-prywatnosci' },
     { label: 'Regulamin',            href: SITE + '/regulamin' },
-    { label: 'Program partnerski',   href: SITE + '/program-partnerski' },
     { label: 'kontakt@aizyl.pl',     href: 'mailto:kontakt@aizyl.pl' }
   ];
 
@@ -33,9 +32,9 @@
         '<div class="container nav-inner">' +
           '<a href="/" class="nav-logo">A I Z Y L<span class="nav-logo-tools">tools</span></a>' +
           '<ul class="nav-links">' + items + '</ul>' +
-          '<a href="' + DOWNLOAD + '" class="btn btn-primary nav-cta">' +
-            '<span class="nav-cta-full">Pobierz Aizyl DLP →</span>' +
-            '<span class="nav-cta-short">Pobierz</span>' +
+          '<a href="' + SITE + '/#products" class="btn btn-primary nav-cta">' +
+            '<span class="nav-cta-full">Zobacz produkty</span>' +
+            '<span class="nav-cta-short">Produkty</span>' +
           '</a>' +
           '<button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">' +
             '<span></span><span></span><span></span></button>' +
@@ -53,7 +52,7 @@
         '<div class="container footer-inner">' +
           '<div class="footer-left">' +
             '<span class="footer-logo">A I Z Y L</span>' +
-            '<span class="footer-copy">© ' + new Date().getFullYear() + ' Aizyl DLP</span>' +
+            '<span class="footer-copy">© ' + new Date().getFullYear() + ' Aizyl</span>' +
           '</div>' +
           '<div class="footer-links">' + links + '</div>' +
         '</div>' +
